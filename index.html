@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI作品初筛评审 | Y事业部Claude挑战赛</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pri:#4F46E5;--ok:#10B981;--err:#EF4444;--acc:#F59E0B;--bg:#F3F4F6;--card:#FFF;--txt:#1F2937;--txt2:#6B7280;--bd:#E5E7EB;--sh:0 1px 3px rgba(0,0,0,.08);--r:12px;--rs:8px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+.hdr{background:linear-gradient(135deg,#4F46E5,#7C3AED);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr h1{font-size:18px;font-weight:700}.hdr .sub{font-size:12px;opacity:.75;margin-top:2px}
+.main{max-width:900px;margin:0 auto;padding:20px 24px 60px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:20px;margin-bottom:16px}
+.ct{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ct .num{width:22px;height:22px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+.fg .req{color:var(--err)}
+.fg input,.fg textarea,.fg select{width:100%;padding:8px 12px;border:1px solid var(--bd);border-radius:var(--rs);font-size:14px;font-family:inherit;transition:.2s}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.fg textarea{min-height:80px;resize:vertical}
+.fg .hint{font-size:12px;color:var(--txt2);margin-top:3px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--rs);font-size:14px;font-weight:500;cursor:pointer;border:none;transition:.15s;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.bp{background:var(--pri);color:#fff}.bp:hover{background:#4338CA}
+.bg{background:#fff;color:var(--txt2);border:1px solid var(--bd)}.bg:hover{background:#f9f9fb}
+.bo{background:#fff;color:var(--pri);border:1px solid var(--pri)}.bo:hover{background:rgba(79,70,229,.04)}
+.bok{background:var(--ok);color:#fff}
+.bsm{padding:6px 14px;font-size:13px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+/* 流程提示 */
+.flow{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:0;align-items:center;margin-bottom:20px;text-align:center}
+.flow-step{background:var(--card);border-radius:var(--r);padding:14px 10px;box-shadow:var(--sh)}
+.flow-step.active{border:2px solid var(--pri);background:#EEF2FF}
+.flow-step .fi{font-size:24px;margin-bottom:4px}
+.flow-step .ft{font-size:13px;font-weight:600}
+.flow-step .fs{font-size:11px;color:var(--txt2);margin-top:2px}
+.flow-arrow{font-size:18px;color:var(--txt2)}
+/* 结果区 */
+.result{border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-top:16px}
+.result-head{padding:12px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:space-between}
+.result-body{padding:0 16px 16px}
+.th-row{display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bd);gap:10px}
+.th-row:last-child{border:0}
+.th-info{flex:1;font-size:13px}.th-info .th-r{font-size:12px;color:var(--txt2);margin-top:2px}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.b-pass{background:rgba(16,185,129,.1);color:var(--ok)}.b-fail{background:rgba(239,68,68,.1);color:var(--err)}
+.sc-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.sc-row:last-child{border:0}
+.sc-name{width:90px;font-size:13px;font-weight:500}
+.sc-track{flex:1;height:7px;background:var(--bd);border-radius:4px;overflow:hidden}
+.sc-fill{height:100%;border-radius:4px;transition:width .5s}
+.sc-num{font-size:18px;font-weight:700;min-width:28px;text-align:right}
+.sc-r{font-size:12px;color:var(--txt2);margin-top:2px;width:100%;padding-left:100px;box-sizing:border-box}
+.concl{text-align:center;padding:20px;margin:12px 0;border-radius:var(--r)}
+.concl.advance{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.02));border:1px solid rgba(16,185,129,.2)}
+.concl.pending{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(245,158,11,.02));border:1px solid rgba(245,158,11,.2)}
+.concl.eliminate{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.02));border:1px solid rgba(239,68,68,.2)}
+.concl .big{font-size:42px}.concl .lab{font-size:17px;font-weight:700}.concl .det{font-size:13px;color:var(--txt2);margin-top:4px}
+.sug{margin-top:12px}.sug li{font-size:13px;margin-bottom:5px}
+/* 历史 */
+.hist-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
+.hist-item:last-child{border:0}
+.hist-name{font-size:14px;font-weight:500}.hist-meta{font-size:12px;color:var(--txt2)}
+.hist-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.ht-a{background:rgba(16,185,129,.1);color:var(--ok)}.ht-p{background:rgba(245,158,11,.1);color:var(--acc)}.ht-e{background:rgba(239,68,68,.1);color:var(--err)}.ht-n{background:rgba(107,114,128,.1);color:var(--txt2)}
+/* prompt区 */
+.prompt-box{background:#1e1e2e;color:#cdd6f4;border-radius:var(--rs);padding:14px;font-size:13px;font-family:Consolas,Monaco,monospace;max-height:300px;overflow-y:auto;white-space:pre-wrap;word-break:break-word;line-height:1.6;margin:10px 0}
+/* toast */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);padding:10px 24px;border-radius:var(--rs);color:#fff;font-size:14px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:999;transition:.3s;opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.ok{background:var(--ok)}.toast.er{background:var(--err)}.toast.info{background:var(--pri)}
+.empty{text-align:center;padding:36px;color:var(--txt2)}.empty .ei{font-size:40px;margin-bottom:8px}
+@media(max-width:640px){.row2{grid-template-columns:1fr}.flow{grid-template-columns:1fr;gap:8px}.flow-arrow{display:none}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>🤖 AI作品初筛评审</h1><div class="sub">Y事业部Claude挑战赛 · 海选初筛</div></div>
+</div>
+<div class="main">
+
+<!-- 操作流程 -->
+<div class="flow">
+  <div class="flow-step active" id="fs1"><div class="fi">📝</div><div class="ft">1. 填写作品</div><div class="fs">输入作品信息</div></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step" id="fs2"><div class="fi">📋</div><div class="ft">2. 复制→Claude</div><div class="fs">粘贴到claude.ai</div></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step" id="fs3"><div class="fi">✅</div><div class="ft">3. 粘贴结果</div><div class="fs">自动解析出报告</div></div>
+</div>
+
+<!-- Step 1: 输入作品 -->
+<div class="card" id="step1">
+  <div class="ct"><span class="num">1</span>输入作品信息</div>
+  <div class="row2">
+    <div class="fg"><label>作品名称<span class="req">*</span></label><input id="f-name" placeholder="输入作品名称"></div>
+    <div class="fg"><label>参赛者ERP<span class="req">*</span></label><input id="f-erp" placeholder="ERP账号"></div>
+  </div>
+  <div class="fg"><label>参赛方向<span class="req">*</span></label>
+    <select id="f-dir"><option value="">请选择</option><option value="1">方向1：个人日常工作提效</option><option value="2">方向2：业务实际难题解决</option><option value="3">方向3：产品创新落地</option></select></div>
+  <div class="fg"><label>作品介绍<span class="req">*</span></label><textarea id="f-intro" placeholder="详细描述作品功能、技术方案、使用方式等"></textarea></div>
+  <div class="fg"><label>解决的核心痛点<span class="req">*</span></label><textarea id="f-pain" placeholder="描述痛点场景、数据支撑等"></textarea></div>
+  <div class="fg"><label>其他材料及文档链接</label><textarea id="f-mat" placeholder="MD文档、截图链接、仓库链接、演示视频等" style="min-height:56px"></textarea>
+    <div class="hint">Claude对话截图、代码仓库、部署链接、演示视频等</div></div>
+  <div class="btns">
+    <button class="btn bp" onclick="genPrompt()">📋 生成评审提示词</button>
+    <button class="btn bg" onclick="clearForm()">清空</button>
+  </div>
+</div>
+
+<!-- Step 2: 提示词 -->
+<div class="card" id="step2" style="display:none">
+  <div class="ct"><span class="num">2</span>复制提示词，粘贴到 <a href="https://claude.ai" target="_blank" style="color:var(--pri)">claude.ai</a> 对话框</div>
+  <div class="prompt-box" id="prompt-out"></div>
+  <div class="btns">
+    <button class="btn bp" onclick="copyPrompt()">📋 一键复制提示词</button>
+    <button class="btn bg" onclick="document.getElementById('step2').style.display='none'">收起</button>
+  </div>
+</div>
+
+<!-- Step 3: 粘贴结果 -->
+<div class="card" id="step3" style="display:none">
+  <div class="ct"><span class="num">3</span>粘贴Claude的回复</div>
+  <div class="fg"><textarea id="paste-area" placeholder="把Claude回复的内容完整粘贴到这里..." style="min-height:200px;font-size:13px;font-family:Consolas,Monaco,monospace"></textarea></div>
+  <div class="btns">
+    <button class="btn bok" onclick="parseResult()">⚙️ 解析生成报告</button>
+    <button class="btn bg" onclick="document.getElementById('step3').style.display='none'">收起</button>
+  </div>
+</div>
+
+<!-- 评审结果 -->
+<div id="result-area"></div>
+
+<!-- 历史记录 -->
+<div class="card">
+  <div class="ct">📂 评审记录 <span style="font-size:12px;color:var(--txt2);font-weight:400" id="hist-count"></span></div>
+  <div class="btns" style="margin-bottom:10px">
+    <button class="btn bo bsm" onclick="exportJSON()">📤 导出JSON</button>
+    <button class="btn bo bsm" onclick="exportCSV()">📊 导出CSV</button>
+    <button class="btn bg bsm" onclick="clearHistory()" style="margin-left:auto">🗑️ 清空</button>
+  </div>
+  <div id="hist-list"></div>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var history=[];
+
+// Init
+window.addEventListener('DOMContentLoaded',function(){
+  history=loadLocal();
+  renderHist();
+});
+
+// Generate prompt
+function genPrompt(){
+  var n=V('f-name'),e=V('f-erp'),d=V('f-dir'),intro=V('f-intro'),pain=V('f-pain'),mat=V('f-mat');
+  if(!n||!e||!d||!intro||!pain){toast('请填写完整作品信息','er');return}
+  var dirMap={'1':'1——个人日常工作提效（流程/文档/协作优化）','2':'2——业务实际难题解决（痛点闭环/效率提升/体验优化）','3':'3——产品创新落地（小功能/小工具/新场景探索）'};
+  var p='你是【AI赋能·提质突围】Y事业部-Claude挑战赛的海选初筛评审员。请严格按照以下评审维度对参赛作品进行评审。\n\n';
+  p+='## 评审维度\n\n';
+  p+='### 门槛性检查（任一项不通过则直接淘汰）\n';
+  p+='1. Claude使用验证：作品是否使用Claude完成核心环节？仅润色文案/翻译=不通过；核心设计/代码生成/流程构建=通过\n';
+  p+='2. 作品完整性：是否包含作品介绍、痛点说明、配套材料？是否有可感知的成果物？仅有想法无成果物=不通过\n';
+  p+='3. 参赛方向符合性：是否归属于三大方向之一？无法归入=不通过\n\n';
+  p+='### 质量性评估（1-5分）\n';
+  p+='4. 实际价值：痛点是否真实具体？方案是否闭环？\n';
+  p+='5. 落地可行性：是否可在现有条件落地？是否已有MVP？\n';
+  p+='6. AI融合深度：Claude是否深度融入核心流程？AI使用是否不可替代？\n\n';
+  p+='## 参赛作品\n\n';
+  p+='作品名称：'+n+'\n';
+  p+='参赛者ERP：'+e+'\n';
+  p+='参赛方向：方向'+dirMap[d]+'\n';
+  p+='作品介绍：'+intro+'\n';
+  p+='解决的核心痛点：'+pain+'\n';
+  p+='其他材料：'+(mat||'无')+'\n\n';
+  p+='## 输出要求\n\n';
+  p+='请严格按以下JSON格式输出评审结果，不要输出其他内容：\n';
+  p+='```json\n';
+  p+='{"threshold":{"claude_usage":{"pass":true或false,"reason":"说明"},"completeness":{"pass":true或false,"reason":"说明"},"direction_fit":{"pass":true或false,"reason":"说明"}},"quality":{"value":{"score":1到5整数,"reason":"说明"},"feasibility":{"score":1到5整数,"reason":"说明"},"ai_depth":{"score":1到5整数,"reason":"说明"}},"total_score":三个质量分之和,"recommendation":"advance或pending或eliminate","core_reason":"一句话概括","suggestions":["建议1","建议2","建议3"]}\n';
+  p+='```';
+  document.getElementById('prompt-out').textContent=p;
+  document.getElementById('step2').style.display='';
+  document.getElementById('step3').style.display='';
+  setActive(2);
+  document.getElementById('step2').scrollIntoView({behavior:'smooth'});
+}
+
+function copyPrompt(){
+  var t=document.getElementById('prompt-out').textContent;
+  navigator.clipboard.writeText(t).then(function(){
+    toast('提示词已复制！打开claude.ai粘贴即可','ok');
+    setActive(2);
+  });
+}
+
+// Parse result
+function parseResult(){
+  var raw=document.getElementById('paste-area').value.trim();
+  if(!raw){toast('请先粘贴Claude的回复','er');return}
+  var match=raw.match(/\{[\s\S]*\}/);
+  if(!match){toast('未找到JSON，请确认粘贴的是Claude完整回复','er');return}
+  var data;
+  try{data=JSON.parse(match[0])}catch(ex){toast('JSON解析失败，请检查格式','er');return}
+
+  var e=data;
+  var th=e.threshold||{};
+  var q=e.quality||{};
+  var total=e.total_score||0;
+  var rec=e.recommendation||'pending';
+  var allPass=th.claude_usage&&th.claude_usage.pass && th.completeness&&th.completeness.pass && th.direction_fit&&th.direction_fit.pass;
+  var recMap={advance:{icon:'🟢',lab:'晋级',cls:'advance'},pending:{icon:'🟡',lab:'待议',cls:'pending'},eliminate:{icon:'🔴',lab:'淘汰',cls:'eliminate'}};
+  var ri=recMap[rec]||recMap.pending;
+  function sc(s){return s>=4?'var(--ok)':s>=3?'var(--pri)':s>=2?'var(--acc)':'var(--err)'}
+
+  // Save to history
+  var record={
+    id:'sub_'+Date.now(),
+    submission:{name:V('f-name'),erp:V('f-erp'),direction:V('f-dir'),intro:V('f-intro'),pain:V('f-pain'),materials:V('f-mat')},
+    evaluation:e,
+    evaluated_at:new Date().toLocaleString('zh-CN')
+  };
+  history.unshift(record);saveLocal();renderHist();
+
+  // Render result
+  var h='<div class="result"><div class="result-head" style="background:'+(allPass?'#F0FDF4':'#FEF2F2')+'">'+(allPass?'✅ 门槛检查通过':'❌ 门槛检查未通过')+'</div><div class="result-body">';
+  h+=thRow('Claude使用验证',th.claude_usage);
+  h+=thRow('作品完整性',th.completeness);
+  h+=thRow('参赛方向符合性',th.direction_fit);
+  h+='</div></div>';
+
+  if(allPass){
+    h+='<div class="result"><div class="result-head" style="background:#EEF2FF">📊 质量评分 <span style="font-size:13px;color:var(--txt2);font-weight:400">总分 '+total+'/15</span></div><div class="result-body">';
+    h+=scRow('实际价值',q.value,sc);
+    h+=scRow('落地可行性',q.feasibility,sc);
+    h+=scRow('AI融合深度',q.ai_depth,sc);
+    h+='</div></div>';
+  }
+
+  h+='<div class="concl '+ri.cls+'"><div class="big">'+ri.icon+'</div><div class="lab">'+ri.lab+'</div><div class="det">'+(allPass?'质量评分 '+total+'/15':'门槛未通过')+' · '+V('f-name')+'</div></div>';
+
+  h+='<div class="card" style="margin-top:12px"><div style="font-size:14px;font-weight:600;margin-bottom:6px">💡 核心理由</div><div style="font-size:13px;color:var(--txt2)">'+(e.core_reason||'—')+'</div>';
+  if(e.suggestions&&e.suggestions.length){
+    h+='<div class="sug" style="margin-top:10px"><div style="font-size:14px;font-weight:600;margin-bottom:4px">📝 改进建议</div><ol>';
+    for(var i=0;i<e.suggestions.length;i++) h+='<li>'+e.suggestions[i]+'</li>';
+    h+='</ol></div>';
+  }
+  h+='</div>';
+
+  h+='<div class="btns" style="margin-top:12px"><button class="btn bo bsm" onclick="copyReport()">📋 复制报告</button><button class="btn bo bsm" onclick="downloadMD()">⬇️ 下载MD</button></div>';
+
+  document.getElementById('result-area').innerHTML=h;
+  setActive(3);
+  document.getElementById('result-area').scrollIntoView({behavior:'smooth'});
+  toast('评审报告已生成！','ok');
+}
+
+function thRow(name,obj){
+  if(!obj) return '<div class="th-row"><div class="th-info">'+name+'</div><span class="badge ht-n">—</span></div>';
+  return '<div class="th-row"><div class="th-info">'+name+'<div class="th-r">'+(obj.reason||'')+'</div></div><span class="badge '+(obj.pass?'b-pass':'b-fail')+'">'+(obj.pass?'✅ 通过':'❌ 不通过')+'</span></div>';
+}
+
+function scRow(name,obj,colorFn){
+  if(!obj) return '';
+  var s=obj.score||0,pct=s/5*100,c=colorFn(s);
+  var h='<div class="sc-row"><div class="sc-name">'+name+'</div><div class="sc-track"><div class="sc-fill" style="width:'+pct+'%;background:'+c+'"></div></div><div class="sc-num" style="color:'+c+'">'+s+'</div></div>';
+  if(obj.reason) h+='<div class="sc-r">'+obj.reason+'</div>';
+  return h;
+}
+
+function setActive(step){
+  for(var i=1;i<=3;i++){
+    var el=document.getElementById('fs'+i);
+    if(el) el.className='flow-step'+(i===step?' active':'');
+  }
+}
+
+// Copy / download report
+function copyReport(){
+  if(!history.length) return;
+  var md=buildMD(history[0]);
+  navigator.clipboard.writeText(md).then(function(){toast('报告已复制','ok')});
+}
+function downloadMD(){
+  if(!history.length) return;
+  var md=buildMD(history[0]);
+  var b=new Blob([md],{type:'text/markdown'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(history[0].submission?history[0].submission.name:'报告')+'_初筛评审.md';a.click();URL.revokeObjectURL(a.href);
+  toast('MD已下载','ok');
+}
+function buildMD(d){
+  var e=d.evaluation||{},th=e.threshold||{},q=e.quality||{};
+  var allPass=th.claude_usage&&th.claude_usage.pass&&th.completeness&&th.completeness.pass&&th.direction_fit&&th.direction_fit.pass;
+  var dirMap={'1':'1——个人日常工作提效','2':'2——业务实际难题解决','3':'3——产品创新落地'};
+  var recMap={advance:'🟢晋级',pending:'🟡待议',eliminate:'🔴淘汰'};
+  var sug='—';if(e.suggestions&&e.suggestions.length) sug=e.suggestions.map(function(s,i){return(i+1)+'. '+s}).join('\n');
+  return '## 作品初筛评审报告\n\n### 基本信息\n- **作品名称**：'+(d.submission?d.submission.name:'')+'\n- **参赛者ERP**：'+(d.submission?d.submission.erp:'')+'\n- **参赛方向**：方向'+(dirMap[d.submission?d.submission.direction:'']||'')+'\n\n### 门槛性检查\n\n| 检查项 | 结果 | 说明 |\n|--------|------|------|\n| Claude使用验证 | '+(th.claude_usage&&th.claude_usage.pass?'✅通过':'❌不通过')+' | '+(th.claude_usage?th.claude_usage.reason:'—')+' |\n| 作品完整性 | '+(th.completeness&&th.completeness.pass?'✅通过':'❌不通过')+' | '+(th.completeness?th.completeness.reason:'—')+' |\n| 参赛方向符合性 | '+(th.direction_fit&&th.direction_fit.pass?'✅通过':'❌不通过')+' | '+(th.direction_fit?th.direction_fit.reason:'—')+' |\n\n**门槛检查结论**：'+(allPass?'🟢全部通过':'🔴未通过')+'\n\n### 质量性评估\n\n| 评估维度 | 评分(1-5) | 说明 |\n|----------|-----------|------|\n| 实际价值 | '+(q.value?q.value.score:0)+'/5 | '+(q.value?q.value.reason:'—')+' |\n| 落地可行性 | '+(q.feasibility?q.feasibility.score:0)+'/5 | '+(q.feasibility?q.feasibility.reason:'—')+' |\n| AI融合深度 | '+(q.ai_depth?q.ai_depth.score:0)+'/5 | '+(q.ai_depth?q.ai_depth.reason:'—')+' |\n\n**质量综合评分**：'+(e.total_score||0)+'/15\n\n### 初筛结论\n\n- **建议**：'+(recMap[e.recommendation]||'⬜未评定')+'\n- **核心理由**：'+(e.core_reason||'—')+'\n- **改进建议**：'+sug;
+}
+
+// History
+function renderHist(){
+  var c=document.getElementById('hist-list');
+  document.getElementById('hist-count').textContent=history.length?'('+history.length+'条)':'';
+  if(!history.length){c.innerHTML='<div class="empty"><div class="ei">📋</div><div>暂无评审记录</div></div>';return}
+  var recMap={advance:'晋级',pending:'待议',eliminate:'淘汰'};
+  var tagMap={advance:'ht-a',pending:'ht-p',eliminate:'ht-e'};
+  c.innerHTML=history.map(function(d){
+    var e=d.evaluation||{};var rec=e.recommendation;
+    return '<div class="hist-item"><div><div class="hist-name">'+(d.submission?d.submission.name:'未知')+'</div><div class="hist-meta">'+(d.evaluated_at||'')+' · '+(d.submission?d.submission.erp:'')+'</div></div><div style="display:flex;align-items:center;gap:8px"><span class="hist-tag '+(tagMap[rec]||'ht-n')+'">'+(recMap[rec]||'未评定')+'</span><button class="btn bg bsm" onclick="viewHist(\''+d.id+'\')">查看</button><button class="btn bg bsm" onclick="delHist(\''+d.id+'\')" style="color:var(--err)">删除</button></div></div>';
+  }).join('');
+}
+
+function viewHist(id){
+  var d=null;for(var i=0;i<history.length;i++){if(history[i].id===id){d=history[i];break}}
+  if(!d) return;
+  document.getElementById('f-name').value=d.submission?d.submission.name:'';
+  document.getElementById('f-erp').value=d.submission?d.submission.erp:'';
+  document.getElementById('f-dir').value=d.submission?d.submission.direction:'';
+  document.getElementById('f-intro').value=d.submission?d.submission.intro:'';
+  document.getElementById('f-pain').value=d.submission?d.submission.pain:'';
+  document.getElementById('f-mat').value=d.submission?d.submission.materials:'';
+  // Re-render result
+  var e=d.evaluation||{},th=e.threshold||{},q=e.quality||{};
+  var total=e.total_score||0,rec=e.recommendation||'pending';
+  var allPass=th.claude_usage&&th.claude_usage.pass&&th.completeness&&th.completeness.pass&&th.direction_fit&&th.direction_fit.pass;
+  var recMap={advance:{icon:'🟢',lab:'晋级',cls:'advance'},pending:{icon:'🟡',lab:'待议',cls:'pending'},eliminate:{icon:'🔴',lab:'淘汰',cls:'eliminate'}};
+  var ri=recMap[rec]||recMap.pending;
+  function sc(s){return s>=4?'var(--ok)':s>=3?'var(--pri)':s>=2?'var(--acc)':'var(--err)'}
+  var h='<div class="result"><div class="result-head" style="background:'+(allPass?'#F0FDF4':'#FEF2F2')+'">'+(allPass?'✅ 门槛检查通过':'❌ 门槛检查未通过')+'</div><div class="result-body">';
+  h+=thRow('Claude使用验证',th.claude_usage);h+=thRow('作品完整性',th.completeness);h+=thRow('参赛方向符合性',th.direction_fit);
+  h+='</div></div>';
+  if(allPass){h+='<div class="result"><div class="result-head" style="background:#EEF2FF">📊 质量评分 <span style="font-size:13px;color:var(--txt2);font-weight:400">总分 '+total+'/15</span></div><div class="result-body">';
+  h+=scRow('实际价值',q.value,sc);h+=scRow('落地可行性',q.feasibility,sc);h+=scRow('AI融合深度',q.ai_depth,sc);h+='</div></div>'}
+  h+='<div class="concl '+ri.cls+'"><div class="big">'+ri.icon+'</div><div class="lab">'+ri.lab+'</div><div class="det">'+(allPass?'质量评分 '+total+'/15':'门槛未通过')+' · '+(d.submission?d.submission.name:'')+'</div></div>';
+  h+='<div class="card" style="margin-top:12px"><div style="font-size:14px;font-weight:600;margin-bottom:6px">💡 核心理由</div><div style="font-size:13px;color:var(--txt2)">'+(e.core_reason||'—')+'</div>';
+  if(e.suggestions&&e.suggestions.length){h+='<div class="sug" style="margin-top:10px"><div style="font-size:14px;font-weight:600;margin-bottom:4px">📝 改进建议</div><ol>';for(var i=0;i<e.suggestions.length;i++) h+='<li>'+e.suggestions[i]+'</li>';h+='</ol></div>'}
+  h+='</div>';
+  document.getElementById('result-area').innerHTML=h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function delHist(id){
+  history=history.filter(function(d){return d.id!==id});saveLocal();renderHist();toast('已删除','ok');
+}
+
+// Export
+function exportJSON(){
+  if(!history.length){toast('暂无数据','er');return}
+  var b=new Blob([JSON.stringify(history,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='初筛评审数据.json';a.click();
+  toast('JSON已导出','ok');
+}
+function exportCSV(){
+  if(!history.length){toast('暂无数据','er');return}
+  var h=['序号','作品名称','ERP','方向','Claude验证','完整性','方向符合','实际价值','落地可行性','AI融合深度','总分','结论','核心理由'];
+  var rows=history.map(function(d,i){var e=d.evaluation||{};var th=e.threshold||{};var q=e.quality||{};
+    return[i+1,d.submission?d.submission.name:'',d.submission?d.submission.erp:'','方向'+(d.submission?d.submission.direction:''),
+      th.claude_usage&&th.claude_usage.pass?'通过':'不通过',th.completeness&&th.completeness.pass?'通过':'不通过',th.direction_fit&&th.direction_fit.pass?'通过':'不通过',
+      q.value?q.value.score:0,q.feasibility?q.feasibility.score:0,q.ai_depth?q.ai_depth.score:0,e.total_score||0,
+      {advance:'晋级',pending:'待议',eliminate:'淘汰'}[e.recommendation]||'',e.core_reason||'']});
+  var csv='﻿'+[h].concat(rows).map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='初筛评审汇总.csv';a.click();
+  toast('CSV已导出','ok');
+}
+function clearHistory(){
+  if(!confirm('确定清空所有评审记录？'))return;
+  history=[];saveLocal();renderHist();document.getElementById('result-area').innerHTML='';
+  toast('已清空','ok');
+}
+
+// Helpers
+function V(id){return document.getElementById(id).value.trim()}
+function clearForm(){['f-name','f-erp','f-intro','f-pain','f-mat'].forEach(function(id){document.getElementById(id).value=''});document.getElementById('f-dir').value='';document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='none';document.getElementById('result-area').innerHTML=''}
+function loadLocal(){try{return JSON.parse(localStorage.getItem('cl_ev')||'[]')}catch(e){return[]}}
+function saveLocal(){try{localStorage.setItem('cl_ev',JSON.stringify(history))}catch(e){}}
+function toast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'info')+' show';clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2500)}
+</script>
+</body>
+</html>
