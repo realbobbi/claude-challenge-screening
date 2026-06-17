@@ -2,6 +2,7 @@
 <html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI作品初筛评审</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#4F46E5;--ok:#10B981;--err:#EF4444;--acc:#F59E0B;--bg:#F3F4F6;--card:#FFF;--txt:#1F2937;--txt2:#6B7280;--bd:#E5E7EB;--sh:0 1px 3px rgba(0,0,0,.08);--r:12px;--rs:8px}
@@ -238,6 +239,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
       </div>
       <div class="fg"><label>其他材料</label><textarea id="f-materials" placeholder="相关文档链接、参考资料等"></textarea></div>
       <div class="btns"><button class="btn bp" onclick="submitWork()">✅ 提交作品并启动AI评审</button><button class="btn bg" onclick="clearForm()">清空</button></div>
+    </div>
+    <div class="card">
+      <div class="ct">📥 批量导入 <span class="badge-count">从Excel</span></div>
+      <div class="fg">
+        <label>选择Excel文件</label>
+        <div class="upload-zone" id="excel-zone" onclick="document.getElementById('excel-file').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="event.preventDefault();this.classList.remove('drag');onExcelDrop(event)">
+          <div class="ui">📊</div><div class="ut" id="excel-label">点击或拖拽上传Excel文件</div><div class="us">.xlsx .xls 格式</div>
+          <input type="file" id="excel-file" accept=".xlsx,.xls" style="display:none" onchange="onExcelSel(this)">
+        </div>
+      </div>
+      <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:var(--rs);padding:10px 12px;font-size:12px;margin-bottom:12px">
+        <div style="font-weight:600;margin-bottom:4px">📋 Excel格式要求</div>
+        <div style="color:var(--txt2)">表头列名（按顺序）：<b>作品名称、参赛者ERP、参赛方向、作品介绍、核心痛点、作品网址</b></div>
+        <div style="color:var(--txt2);margin-top:2px">参赛方向填：<b>1</b>=提效 / <b>2</b>=难题 / <b>3</b>=创新</div>
+        <div style="color:var(--txt2);margin-top:2px">前两列（作品名称、ERP）必填，其余可选</div>
+      </div>
+      <div id="excel-preview" style="display:none;margin-bottom:12px"></div>
+      <div class="btns"><button class="btn bp" id="btn-import-excel" onclick="doImportExcel()" disabled>📥 开始导入</button><button class="btn bg" onclick="clearExcel()">清空</button></div>
     </div>
   </div>
   <div class="tc" id="tab-assign"><div class="stat-bar" id="assign-stats"></div><div class="card" id="assign-card"></div></div>
@@ -848,6 +867,150 @@ function clearForm(){
   document.getElementById('f-html').value='';
 }
 
+// ========== Excel批量导入 ==========
+var excelData=[];
+
+function onExcelSel(input){
+  if(!input.files||!input.files[0])return;
+  document.getElementById('excel-label').textContent=input.files[0].name;
+  document.getElementById('excel-zone').style.borderColor='var(--ok)';
+  parseExcel(input.files[0]);
+}
+
+function onExcelDrop(e){
+  var files=e.dataTransfer.files;
+  if(!files.length)return;
+  document.getElementById('excel-file').files=files;
+  document.getElementById('excel-label').textContent=files[0].name;
+  document.getElementById('excel-zone').style.borderColor='var(--ok)';
+  parseExcel(files[0]);
+}
+
+function parseExcel(file){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var wb=XLSX.read(e.target.result,{type:'array'});
+      var ws=wb.Sheets[wb.SheetNames[0]];
+      var rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      if(rows.length<2){toast('Excel为空或只有表头','er');return}
+
+      // 智能识别列名
+      var header=rows[0].map(function(c){return String(c).trim()});
+      var colMap={name:-1,erp:-1,direction:-1,intro:-1,pain:-1,url:-1};
+      var nameKeys=['作品名称','名称','作品','name'];
+      var erpKeys=['参赛者erp','erp','账号','工号'];
+      var dirKeys=['参赛方向','方向','direction'];
+      var introKeys=['作品介绍','介绍','简介','intro'];
+      var painKeys=['核心痛点','痛点','pain'];
+      var urlKeys=['作品网址','网址','url','链接','演示地址'];
+
+      header.forEach(function(col,i){
+        var low=col.toLowerCase();
+        if(colMap.name<0&&nameKeys.some(function(k){return low.indexOf(k)>=0}))colMap.name=i;
+        if(colMap.erp<0&&erpKeys.some(function(k){return low.indexOf(k)>=0}))colMap.erp=i;
+        if(colMap.direction<0&&dirKeys.some(function(k){return low.indexOf(k)>=0}))colMap.direction=i;
+        if(colMap.intro<0&&introKeys.some(function(k){return low.indexOf(k)>=0}))colMap.intro=i;
+        if(colMap.pain<0&&painKeys.some(function(k){return low.indexOf(k)>=0}))colMap.pain=i;
+        if(colMap.url<0&&urlKeys.some(function(k){return low.indexOf(k)>=0}))colMap.url=i;
+      });
+
+      // 如果没匹配到列名，按顺序猜测
+      if(colMap.name<0)colMap.name=0;
+      if(colMap.erp<0)colMap.erp=1;
+      if(colMap.direction<0)colMap.direction=2;
+      if(colMap.intro<0)colMap.intro=3;
+      if(colMap.pain<0)colMap.pain=4;
+      if(colMap.url<0)colMap.url=5;
+
+      excelData=[];
+      var dirMap={'提效':'1','效率':'1','难题':'2','业务':'2','创新':'3','产品':'3'};
+      for(var i=1;i<rows.length;i++){
+        var r=rows[i];
+        if(!r[colMap.name]&&!r[colMap.erp])continue;
+        var dir=String(r[colMap.direction]||'').trim();
+        if(dirMap[dir.toLowerCase()])dir=dirMap[dir.toLowerCase()];
+        else if(!/^[123]$/.test(dir))dir='';
+        excelData.push({
+          name:String(r[colMap.name]||'').trim(),
+          erp:String(r[colMap.erp]||'').trim(),
+          direction:dir,
+          intro:String(r[colMap.intro]||'').trim(),
+          pain:String(r[colMap.pain]||'').trim(),
+          workUrl:String(r[colMap.url]||'').trim()
+        });
+      }
+
+      // 显示预览
+      var pv=document.getElementById('excel-preview');pv.style.display='block';
+      var ph='<div style="font-size:13px;font-weight:600;margin-bottom:8px">📋 识别到 '+excelData.length+' 条数据</div>';
+      ph+='<div style="max-height:240px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rs)">';
+      ph+='<table class="tbl"><thead><tr><th>#</th><th>作品名称</th><th>ERP</th><th>方向</th><th>作品网址</th></tr></thead><tbody>';
+      var dirLabel={'1':'提效','2':'难题','3':'创新'};
+      excelData.forEach(function(d,i){
+        var nameOk=d.name?'':'style="color:var(--err)"';
+        var erpOk=d.erp?'':'style="color:var(--err)"';
+        ph+='<tr><td>'+(i+1)+'</td><td '+nameOk+'>'+(d.name||'⚠️缺')+'</td><td '+erpOk+'>'+(d.erp||'⚠️缺')+'</td>';
+        ph+='<td>'+(dirLabel[d.direction]||d.direction||'—')+'</td>';
+        ph+='<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(d.workUrl||'—')+'</td></tr>';
+      });
+      ph+='</tbody></table></div>';
+      pv.innerHTML=ph;
+      document.getElementById('btn-import-excel').disabled=!excelData.length;
+
+    }catch(err){
+      toast('Excel解析失败: '+err.message,'er');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function doImportExcel(){
+  if(!excelData.length){toast('请先选择Excel文件','er');return}
+  var btn=document.getElementById('btn-import-excel');btn.disabled=true;btn.textContent='⏳ 导入中...';
+  var subs=getSubmissions();
+  var dirLabel={'1':'提效','2':'难题','3':'创新'};
+  var imported=0,skipped=0;
+
+  setTimeout(function(){
+    excelData.forEach(function(d){
+      if(!d.name||!d.erp){skipped++;return}
+      var id='sub_'+Math.random().toString(36).substr(2,12);
+      var sub={
+        id:id,name:d.name,erp:d.erp,direction:d.direction||'1',
+        intro:d.intro,pain:d.pain,materials:'',workUrl:d.workUrl,workHtml:'',
+        submitted_at:new Date().toLocaleString('zh-CN',{hour12:false}).replace(/\//g,'-'),
+        status:'evaluating',evaluation:null,judge_score:null
+      };
+      subs.push(sub);imported++;
+    });
+    saveSubmissions(subs);
+
+    // 逐个触发AI评审
+    subs=getSubmissions();
+    subs.forEach(function(s){
+      if(s.status==='evaluating'&&!s.evaluation){
+        s=generateAIEval(s);
+      }
+    });
+    saveSubmissions(subs);
+
+    btn.disabled=false;btn.textContent='📥 开始导入';
+    toast('✅ 成功导入 '+imported+' 件'+(skipped?'，跳过 '+skipped+' 件（名称或ERP为空）':''),'ok');
+    excelData=[];clearExcel();
+    renderReviewList();renderAssignTab();renderOverview();renderJudgesTab();
+  },500);
+}
+
+function clearExcel(){
+  excelData=[];
+  document.getElementById('excel-file').value='';
+  document.getElementById('excel-label').textContent='点击或拖拽上传Excel文件';
+  document.getElementById('excel-zone').style.borderColor='var(--bd)';
+  document.getElementById('excel-preview').style.display='none';
+  document.getElementById('btn-import-excel').disabled=true;
+}
+
 // ========== 分配项目 ==========
 function renderAssignTab(){
   var subs=getSubmissions();var users=getUsers();
@@ -976,10 +1139,46 @@ function renderJudgesTab(){
     reviewers.forEach(function(u){
       var assigned=u.assigned||[];
       var judged=0;assigned.forEach(function(sid){var s=subs.find(function(x){return x.id===sid});if(s&&s.judge_score&&s.judge_score.total_score>0)judged++});
-      h+='<div class="judge-card"><div class="judge-info"><div class="judge-name">'+u.display_name+' <span style="font-weight:400;color:var(--txt2);font-size:12px">('+u.username+')</span></div>';
+      h+='<div class="card" style="margin-bottom:12px;padding:16px">';
+      // 评委基本信息行
+      h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">';
+      h+='<div><div class="judge-name" style="font-size:15px">'+u.display_name+' <span style="font-weight:400;color:var(--txt2);font-size:12px">('+u.username+')</span></div>';
       h+='<div class="judge-meta">已分配 '+assigned.length+' 件 · 已评审 '+judged+' 件 · 密码: '+u.password+'</div></div>';
       h+='<div class="btns"><button class="btn bo bsm" onclick="openAssignModal(\''+u.username+'\')">📋 分配</button>';
-      h+='<button class="btn be bsm" onclick="delUser(\''+u.username+'\')">🗑️</button></div></div>';
+      h+='<button class="btn be bsm" onclick="delUser(\''+u.username+'\')">🗑️</button></div>';
+      h+='</div>';
+
+      // 各作品打分详情
+      if(assigned.length){
+        h+='<div style="margin-top:12px;border-top:1px solid var(--bd);padding-top:12px">';
+        h+='<div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--pri)">📊 评分详情</div>';
+        h+='<table class="tbl" style="font-size:12px"><thead><tr><th>作品名称</th><th>实际价值</th><th>落地可行性</th><th>AI融合深度</th><th>演示效果</th><th>创新性</th><th>总分</th><th>结论</th><th>评价</th></tr></thead><tbody>';
+        assigned.forEach(function(sid){
+          var s=subs.find(function(x){return x.id===sid});
+          if(!s){h+='<tr><td colspan="9" style="color:var(--txt2)">—作品已删除—</td></tr>';return}
+          var js=s.judge_score;
+          var hasJ=js&&js.total_score>0;
+          h+='<tr>';
+          h+='<td style="font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+s.name+'">'+s.name+'</td>';
+          if(hasJ){
+            var dimCls=function(v){return v>=4?'color:var(--ok)':v>=3?'color:var(--pri)':v>=2?'color:var(--acc)':'color:var(--err)'};
+            h+='<td style="'+dimCls(js.value||0)+';font-weight:600;text-align:center">'+(js.value||0)+'</td>';
+            h+='<td style="'+dimCls(js.feasibility||0)+';font-weight:600;text-align:center">'+(js.feasibility||0)+'</td>';
+            h+='<td style="'+dimCls(js.ai_depth||0)+';font-weight:600;text-align:center">'+(js.ai_depth||0)+'</td>';
+            h+='<td style="'+dimCls(js.demo||0)+';font-weight:600;text-align:center">'+(js.demo||0)+'</td>';
+            h+='<td style="'+dimCls(js.innovation||0)+';font-weight:600;text-align:center">'+(js.innovation||0)+'</td>';
+            h+='<td style="font-weight:700;text-align:center;color:var(--pri)">'+js.total_score+'/25</td>';
+            var resMap={advance:'🟢晋级',pending:'🟡待议',eliminate:'🔴淘汰'};
+            h+='<td style="text-align:center;font-weight:600">'+(resMap[js.result]||'—')+'</td>';
+            h+='<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--txt2)" title="'+esc(js.comment||'')+'">'+esc(js.comment||'—')+'</td>';
+          }else{
+            h+='<td colspan="7" style="color:var(--txt2);text-align:center">⏳ 未评分</td>';
+          }
+          h+='</tr>';
+        });
+        h+='</tbody></table></div>';
+      }
+      h+='</div>';
     });
   }
   document.getElementById('judges-card').innerHTML=h;
