@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI作品初筛评审</title>
 <style>
@@ -69,8 +68,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 /* 详情 */
 .detail-back{cursor:pointer;font-size:14px;color:var(--pri);margin-bottom:12px;display:inline-flex;align-items:center;gap:4px}
 .detail-back:hover{text-decoration:underline}
-.att-item{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#F0FDF4;border-radius:var(--rs);margin-bottom:4px;font-size:13px}
-.att-item a{color:var(--pri);text-decoration:none}.att-item a:hover{text-decoration:underline}
 .th-row{display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bd);gap:10px}
 .th-row:last-child{border:0}
 .th-info{flex:1;font-size:13px}.th-info .th-r{font-size:12px;color:var(--txt2);margin-top:2px}
@@ -96,18 +93,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .upload-zone .ui{font-size:28px;margin-bottom:4px}
 .upload-zone .ut{font-size:14px;font-weight:500}
 .upload-zone .us{font-size:12px;color:var(--txt2)}
-.file-list{margin-top:8px}
-.file-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:#F9FAFB;border-radius:var(--rs);margin-bottom:4px;font-size:13px}
-.file-item .fn{display:flex;align-items:center;gap:6px}
-.file-item .fs{color:var(--txt2);font-size:12px}
-.file-item .fd{cursor:pointer;color:var(--err);font-size:16px}
-
-/* 导入区 */
-.import-zone{border:2px dashed var(--bd);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:.2s}
-.import-zone:hover,.import-zone.drag{border-color:var(--pri);background:rgba(79,70,229,.02)}
-.import-zone .ii{font-size:28px;margin-bottom:4px}
-.import-zone .it{font-size:14px;font-weight:500}
-.import-zone .is{font-size:12px;color:var(--txt2)}
 
 /* 表格 */
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
@@ -136,8 +121,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .judge-info{flex:1}
 .judge-name{font-size:14px;font-weight:600}
 .judge-meta{font-size:12px;color:var(--txt2);margin-top:2px}
-
-/* 分配标签 */
 .assign-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500}
 .assign-tag.reviewer{background:rgba(16,185,129,.1);color:var(--ok)}
 .assign-tag.none{background:rgba(107,114,128,.1);color:#9CA3AF}
@@ -157,13 +140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .assign-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--pri)}
 .assign-item.checked{background:#EEF2FF}
 
-/* 空状态 */
-.empty{text-align:center;padding:60px 20px}
-.empty .ei{font-size:48px;margin-bottom:12px}
-.empty h2{font-size:18px;margin-bottom:8px}
-.empty p{font-size:14px;color:var(--txt2)}
-
-/* 评分面板 - 固定底部 */
+/* 评分面板 */
 .score-panel{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--pri);box-shadow:0 -4px 20px rgba(0,0,0,.12);z-index:200;transform:translateY(100%);transition:transform .3s}
 .score-panel.open{transform:translateY(0)}
 .score-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#EEF2FF;cursor:pointer}
@@ -191,9 +168,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
 .spinner{width:28px;height:28px;border:3px solid var(--bd);border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);padding:10px 22px;border-radius:var(--rs);color:#fff;font-size:14px;font-weight:500;z-index:999;transition:.3s;opacity:0}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);padding:10px 22px;border-radius:var(--rs);color:#fff;font-size:14px;font-weight:500;z-index:9999;transition:.3s;opacity:0}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.ok{background:var(--ok)}.toast.er{background:var(--err)}.toast.info{background:var(--pri)}
+
+/* 作品展示 */
+.work-preview{border:3px solid var(--ok);background:linear-gradient(135deg,#f0fdf4,#fff);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.work-preview .preview-title{color:var(--ok);font-size:17px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.work-preview .preview-url{font-size:12px;color:var(--txt2);margin-bottom:10px;word-break:break-all}
+.work-preview iframe{width:100%;height:600px;border:1px solid #BBF7D0;border-radius:var(--rs);background:#fff}
+
+.empty{text-align:center;padding:60px 20px}
+.empty .ei{font-size:48px;margin-bottom:12px}
+.empty h2{font-size:18px;margin-bottom:8px}
+.empty p{font-size:14px;color:var(--txt2)}
 
 @media(max-width:768px){.row2{grid-template-columns:1fr}.tabs{padding:0 12px}.tab{padding:10px 14px;font-size:13px}.stat-bar{gap:8px}.stat-item{min-width:70px;padding:8px 12px}.stat-item .num{font-size:18px}}
 </style>
@@ -201,40 +189,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <body>
 
 <!-- ===== 登录 ===== -->
-<div class="login-bg" id="login-overlay" style="display: none;">
+<div class="login-bg" id="login-overlay">
   <div class="login-box">
     <div class="logo">👨‍⚖️</div>
     <h2>AI作品评审系统</h2>
     <div class="sub">Y事业部Claude挑战赛</div>
-    <div class="login-err" id="login-err" style="display: none;"></div>
-    <div class="fg"><label>ERP账号</label><input id="login-user" placeholder="请输入ERP账号" onkeydown="if(event.key===&#39;Enter&#39;){document.getElementById(&#39;login-pass&#39;).focus()}"></div>
-    <div class="fg"><label>密码</label><input id="login-pass" type="password" placeholder="请输入密码" onkeydown="if(event.key===&#39;Enter&#39;){doLogin()}"></div>
+    <div class="login-err" id="login-err"></div>
+    <div class="fg"><label>账号</label><input id="login-user" placeholder="管理员: admin / 评委: ERP账号" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()"></div>
+    <div class="fg"><label>密码</label><input id="login-pass" type="password" placeholder="管理员: admin888 / 评委: 账号+666" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="btn bp" id="btn-login" onclick="doLogin()" style="margin-top:8px">登 录</button>
   </div>
 </div>
 
 <!-- ===== 主界面 ===== -->
-<div id="app-main" style="display: block;">
+<div id="app-main" style="display:none">
 <div class="hdr">
-  <div><h1 id="page-title">👨‍⚖️ 评审系统</h1><div class="sub">Y事业部Claude挑战赛 · <span id="user-info">管理员 [管理员]</span></div></div>
+  <div><h1 id="page-title">👨‍⚖️ 评审系统</h1><div class="sub">Y事业部Claude挑战赛 · <span id="user-info"></span></div></div>
   <div class="right">
-    <span style="font-size:12px;opacity:.7;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:10px">📦 静态展示</span>
+    <button class="btn bg bsm" onclick="doLogout()">退出登录</button>
   </div>
 </div>
-<div class="tabs" id="main-tabs"><div class="tab active" data-tab="review" onclick="switchTab(&#39;review&#39;)">📋 评审作品</div><div class="tab" data-tab="upload" onclick="switchTab(&#39;upload&#39;)">📥 上传作品</div><div class="tab" data-tab="assign" onclick="switchTab(&#39;assign&#39;)">📋 分配项目</div><div class="tab" data-tab="judges" onclick="switchTab(&#39;judges&#39;)">👥 评审人</div><div class="tab" data-tab="overview" onclick="switchTab(&#39;overview&#39;)">📊 总览</div></div>
+<div class="tabs" id="main-tabs"></div>
 <div class="main">
-
-  <!-- ===== Tab: 评审作品 ===== -->
-  <div class="tc active" id="tab-review">
-    <div class="stat-bar" id="stat-bar"><div class="stat-item"><div class="num">2</div><div class="lab">作品总数</div></div><div class="stat-item"><div class="num" style="color:var(--pri)">2</div><div class="lab">AI已评审</div></div><div class="stat-item"><div class="num" style="color:var(--acc)">0</div><div class="lab">评委已评</div></div><div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:8px"></div></div>
-    <div id="rv-list"><div class="card"><div class="ct">📋 作品列表（2件）</div><div class="slist-item" onclick="viewDetail(&#39;sub_fc7d4775cbc6&#39;)"><div class="sli-top"><div class="sli-name">1. 测试作品</div><div><span class="sli-status st-done">✅ 已评审</span> <span class="sli-status st-pending2">🟡建议待议</span></div></div><div class="sli-meta">ERP: test001 · 方向1提效 · 2026-06-16 19:10:41 · 📎1</div></div><div class="slist-item" onclick="viewDetail(&#39;sub_030125025b13&#39;)"><div class="sli-top"><div class="sli-name">2. 今日局（出行小程序）</div><div><span class="sli-status st-done">✅ 已评审</span> <span class="sli-status st-pending2">🟡建议待议</span></div></div><div class="sli-meta">ERP: 111 · 方向3创新 · 2026-06-17 14:06:34 · 📎1</div></div></div></div>
-    <div id="rv-detail" style="display:none"></div>
-  </div>
-
-  <!-- ===== Tab: 上传作品（管理员） ===== -->
+  <div class="tc active" id="tab-review"><div class="stat-bar" id="stat-bar"></div><div id="rv-list"></div><div id="rv-detail" style="display:none"></div></div>
   <div class="tc" id="tab-upload">
-    <div class="card">
-      <div class="ct">📥 手动上传作品</div>
+    <div class="card"><div class="ct">📥 上传作品</div>
       <div class="fg"><label>作品名称 <span class="req">*</span></label><input id="f-name" placeholder="如：基于Claude的智能客服系统"></div>
       <div class="row2">
         <div class="fg"><label>参赛者ERP <span class="req">*</span></label><input id="f-erp" placeholder="如zhongsan1"></div>
@@ -242,141 +221,53 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
           <select id="f-direction"><option value="">请选择</option><option value="1">方向1 - 个人日常工作提效</option><option value="2">方向2 - 业务实际难题解决</option><option value="3">方向3 - 产品创新落地</option></select>
         </div>
       </div>
-      <div class="fg"><label>作品介绍</label><textarea id="f-intro" placeholder="请描述作品的功能、技术架构、实现方式等"></textarea></div>
+      <div class="fg"><label>作品介绍 <span class="req">*</span></label><textarea id="f-intro" placeholder="请描述作品的功能、技术架构、实现方式等"></textarea></div>
       <div class="fg"><label>核心痛点</label><textarea id="f-pain" placeholder="请描述解决的核心痛点"></textarea></div>
+      <div class="fg"><label>作品呈现形式</label>
+        <div class="row2">
+          <div class="fg"><label>🔗 网址链接</label><input id="f-url" placeholder="如 http://example.com"></div>
+          <div class="fg"><label>📄 HTML代码</label>
+            <div class="upload-zone" onclick="document.getElementById('f-html').click()" style="padding:14px">
+              <div style="font-size:13px">📎 点击上传HTML文件</div>
+              <input type="file" id="f-html" accept=".html,.htm" style="display:none" onchange="onHtmlFile(this)">
+            </div>
+            <div id="html-file-name" style="font-size:12px;color:var(--ok);margin-top:4px"></div>
+          </div>
+        </div>
+        <div class="hint">网址版作品将提供跳转链接；HTML版作品将直接在页面中展示最终效果</div>
+      </div>
       <div class="fg"><label>其他材料</label><textarea id="f-materials" placeholder="相关文档链接、参考资料等"></textarea></div>
-      <div class="fg">
-        <label>附件上传（可选）</label>
-        <div class="upload-zone" id="upload-zone" onclick="document.getElementById(&#39;f-files&#39;).click()" ondragover="event.preventDefault();this.classList.add(&#39;drag&#39;)" ondragleave="this.classList.remove(&#39;drag&#39;)" ondrop="event.preventDefault();this.classList.remove(&#39;drag&#39;);handleDrop(event)">
-          <div class="ui">📎</div><div class="ut">点击或拖拽上传附件</div><div class="us">支持所有文件格式，可多选</div>
-        </div>
-        <input type="file" id="f-files" multiple="" style="display:none" onchange="handleFiles(this.files)">
-        <div class="file-list" id="file-list"></div>
-      </div>
-      <div class="btns"><button class="btn bp" onclick="submitWork()" id="btn-submit-work">✅ 提交作品</button><button class="btn bg" onclick="clearForm()">清空表单</button></div>
-    </div>
-    <div class="card">
-      <div class="ct">📥 批量导入 <span class="badge-count">从Excel</span></div>
-      <div class="btns"><button class="btn bp bsm" onclick="showImportModal()">📥 从Excel导入</button></div>
-      <div style="margin-top:8px;font-size:12px;color:var(--txt2)">支持xlsx/xls格式，自动识别列名，导入后自动触发AI评审</div>
+      <div class="btns"><button class="btn bp" onclick="submitWork()">✅ 提交作品并启动AI评审</button><button class="btn bg" onclick="clearForm()">清空</button></div>
     </div>
   </div>
-
-  <!-- ===== Tab: 分配项目（管理员） ===== -->
-  <div class="tc" id="tab-assign">
-    <div class="stat-bar" id="assign-stats"><div class="stat-item"><div class="num" style="color:var(--pri)">2</div><div class="lab">作品总数</div></div><div class="stat-item"><div class="num" style="color:var(--err)">0</div><div class="lab">未分配</div></div><div class="stat-item"><div class="num" style="color:var(--ok)">2</div><div class="lab">已分配</div></div><div class="stat-item"><div class="num" style="color:var(--acc)">0</div><div class="lab">已评审</div></div></div>
-    <div class="card">
-      <div class="filter-bar">
-        <input class="search" id="assign-search" placeholder="🔍 搜索作品名称或ERP..." oninput="renderAssignTable()">
-        <button class="filter-chip active" onclick="setFilter(&#39;all&#39;,this)">全部</button>
-        <button class="filter-chip" onclick="setFilter(&#39;unassigned&#39;,this)">未分配</button>
-        <button class="filter-chip" onclick="setFilter(&#39;assigned&#39;,this)">已分配</button>
-        <button class="filter-chip" onclick="setFilter(&#39;judged&#39;,this)">已评审</button>
-      </div>
-      <div class="btns" style="margin-bottom:12px">
-        <button class="btn bok bsm" onclick="autoAssign()">⚖️ 自动均分</button>
-        <button class="btn bp bsm" onclick="batchAssignTo()">📋 批量分配给...</button>
-        <span style="font-size:13px;color:var(--txt2);line-height:32px" id="assign-count">显示 2 / 2 件</span>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="tbl"><thead><tr>
-          <th><input type="checkbox" onclick="toggleAllAssign(this.checked)"></th><th>作品名称</th><th>ERP</th><th>方向</th><th>AI评审</th><th>分配给</th><th>操作</th>
-        </tr></thead><tbody id="assign-tbody"><tr><td><input type="checkbox" data-id="sub_fc7d4775cbc6" onchange="toggleSubSelect(&#39;sub_fc7d4775cbc6&#39;,this.checked)"></td><td style="font-weight:500;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="测试作品">测试作品</td><td>test001</td><td>方向1</td><td><span class="sli-status st-pending2">待议</span> <span style="font-size:12px;color:var(--txt2)">3分</span></td><td><span class="assign-tag reviewer">刘洁</span> </td><td><button class="btn bo bxs" onclick="openSingleAssign(&#39;sub_fc7d4775cbc6&#39;)">分配</button></td></tr><tr><td><input type="checkbox" data-id="sub_030125025b13" onchange="toggleSubSelect(&#39;sub_030125025b13&#39;,this.checked)"></td><td style="font-weight:500;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="今日局（出行小程序）">今日局（出行小程序）</td><td>111</td><td>方向3</td><td><span class="sli-status st-pending2">待议</span> <span style="font-size:12px;color:var(--txt2)">9分</span></td><td><span class="assign-tag reviewer">钟佳琳</span> </td><td><button class="btn bo bxs" onclick="openSingleAssign(&#39;sub_030125025b13&#39;)">分配</button></td></tr></tbody></table>
-      </div>
-      <div class="empty" id="assign-empty" style="display: none;"><div class="ei">📭</div><p>暂无作品</p></div>
-    </div>
-  </div>
-
-  <!-- ===== Tab: 评审人管理（管理员） ===== -->
-  <div class="tc" id="tab-judges">
-    <div class="card">
-      <div class="ct">👥 评审人管理 <span class="badge-count" id="judge-count">(2人)</span></div>
-      <div class="btns" style="margin-bottom:12px"><button class="btn bp bsm" onclick="showAddUser()">➕ 添加评审人</button></div>
-      <div id="judge-list"><div class="judge-card"><div class="judge-info"><div class="judge-name">钟佳琳 <span style="font-weight:400;color:var(--txt2);font-size:12px">(zhongjialin.bob)</span></div><div class="judge-meta">已分配 1 件 · 已评审 0 件</div></div><div class="btns"><button class="btn bo bsm" onclick="openAssign(&#39;zhongjialin.bob&#39;)">📋 分配</button><button class="btn bg bsm" onclick="resetPwd(&#39;zhongjialin.bob&#39;)">🔑 改密</button><button class="btn be bsm" onclick="delUser(&#39;zhongjialin.bob&#39;)">🗑️</button></div></div><div class="judge-card"><div class="judge-info"><div class="judge-name">刘洁 <span style="font-weight:400;color:var(--txt2);font-size:12px">(liujie543)</span></div><div class="judge-meta">已分配 1 件 · 已评审 0 件</div></div><div class="btns"><button class="btn bo bsm" onclick="openAssign(&#39;liujie543&#39;)">📋 分配</button><button class="btn bg bsm" onclick="resetPwd(&#39;liujie543&#39;)">🔑 改密</button><button class="btn be bsm" onclick="delUser(&#39;liujie543&#39;)">🗑️</button></div></div></div>
-    </div>
-  </div>
-
-  <!-- ===== Tab: 总览（管理员） ===== -->
-  <div class="tc" id="tab-overview">
-    <div class="stat-bar" id="overview-stats"><div class="stat-item"><div class="num" style="color:var(--pri)">2</div><div class="lab">作品总数</div></div><div class="stat-item"><div class="num" style="color:var(--err)">0</div><div class="lab">未分配</div></div><div class="stat-item"><div class="num" style="color:var(--ok)">0</div><div class="lab">推荐晋级</div></div><div class="stat-item"><div class="num" style="color:var(--acc)">2</div><div class="lab">建议待议</div></div><div class="stat-item"><div class="num" style="color:var(--txt2)">0</div><div class="lab">已评审</div></div></div>
-    <div class="card"><div class="ct">📋 未分配作品</div><div id="unassigned-list"><div style="text-align:center;padding:20px;color:var(--txt2)">✅ 所有作品已分配</div></div></div>
-    <div class="card"><div class="ct">📊 各评审人分配情况</div><div id="reviewer-overview"><div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)"><div style="min-width:100px;font-weight:500;font-size:14px">钟佳琳</div><div style="flex:1"><div style="height:8px;background:var(--bd);border-radius:4px;overflow:hidden"><div style="height:100%;width:0%;background:var(--ok);border-radius:4px;transition:width .5s"></div></div></div><div style="font-size:13px;color:var(--txt2);min-width:120px;text-align:right">0/1 已评审 (0%)</div></div><div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)"><div style="min-width:100px;font-weight:500;font-size:14px">刘洁</div><div style="flex:1"><div style="height:8px;background:var(--bd);border-radius:4px;overflow:hidden"><div style="height:100%;width:0%;background:var(--ok);border-radius:4px;transition:width .5s"></div></div></div><div style="font-size:13px;color:var(--txt2);min-width:120px;text-align:right">0/1 已评审 (0%)</div></div></div></div>
-  </div>
-
+  <div class="tc" id="tab-assign"><div class="stat-bar" id="assign-stats"></div><div class="card" id="assign-card"></div></div>
+  <div class="tc" id="tab-judges"><div class="card" id="judges-card"></div></div>
+  <div class="tc" id="tab-overview"><div class="stat-bar" id="overview-stats"></div><div class="card" id="overview-unassigned"></div><div class="card" id="overview-reviewers"></div></div>
 </div>
 </div>
 
-<!-- ===== 导入弹窗 ===== -->
-<div class="modal-bg" id="import-modal">
-  <div class="modal">
-    <div class="modal-hd"><div class="t">📥 导入参赛作品</div><div class="x" onclick="closeImportModal()">✕</div></div>
-    <div class="modal-bd">
-      <div class="fg"><label>Excel文件 <span class="req">*</span></label>
-        <div class="import-zone" id="imp-excel-zone" onclick="document.getElementById(&#39;imp-excel-in&#39;).click()">
-          <div class="ii">📊</div><div class="it" id="imp-excel-label">点击选择Excel文件</div><div class="is">.xlsx .xls</div>
-          <input type="file" id="imp-excel-in" accept=".xlsx,.xls" style="display:none" onchange="onExcelSel(this)">
-        </div>
-      </div>
-      <div class="fg"><label>附件目录路径（可选）</label><input id="imp-dir" placeholder="如 D:\共享文档\附件"></div>
-      <div id="imp-dir-preview" style="display:none;margin-bottom:12px"><div style="font-size:13px;font-weight:600;margin-bottom:6px">📂 目录预览</div><div id="imp-dir-content" style="background:#F9FAFB;border-radius:var(--rs);padding:10px;font-size:12px;max-height:150px;overflow-y:auto"></div></div>
-      <div class="btns"><button class="btn bp" id="btn-import" onclick="doImport()">📥 开始导入</button><button class="btn bg" onclick="closeImportModal()">取消</button></div>
-      <div id="imp-result" style="display:none;margin-top:16px"></div>
-    </div>
+<!-- ===== 弹窗们 ===== -->
+<div class="modal-bg" id="add-user-modal"><div class="modal" style="width:420px"><div class="modal-hd"><div class="t">➕ 添加评审人</div><div class="x" onclick="closeModal('add-user-modal')">✕</div></div><div class="modal-bd">
+  <div class="fg"><label>ERP账号 <span class="req">*</span></label><input id="new-user" placeholder="如zhongsan1"></div>
+  <div class="fg"><label>姓名 <span class="req">*</span></label><input id="new-name" placeholder="如张三"></div>
+  <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--rs);padding:10px 12px;font-size:13px;margin-bottom:12px">
+    <div style="font-weight:600;margin-bottom:4px">📌 密码自动生成</div>
+    <div style="color:var(--txt2)">密码 = ERP账号 + 666</div>
+    <div style="color:var(--txt2);margin-top:2px">如 ERP为 <b>zhongsan1</b>，则密码为 <b>zhongsan1666</b></div>
   </div>
-</div>
+  <div class="btns"><button class="btn bp" onclick="addUser()">✅ 添加</button><button class="btn bg" onclick="closeModal('add-user-modal')">取消</button></div>
+</div></div></div>
 
-<!-- ===== 添加评审人弹窗 ===== -->
-<div class="modal-bg" id="add-user-modal">
-  <div class="modal" style="width:420px">
-    <div class="modal-hd"><div class="t">➕ 添加评审人</div><div class="x" onclick="closeAddUser()">✕</div></div>
-    <div class="modal-bd">
-      <div class="fg"><label>ERP账号 <span class="req">*</span></label><input id="new-user" placeholder="如zhongsan1"></div>
-      <div class="fg"><label>姓名 <span class="req">*</span></label><input id="new-name" placeholder="如张三"></div>
-      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--rs);padding:10px 12px;font-size:13px;margin-bottom:12px">
-        <div style="font-weight:600;margin-bottom:4px">📌 账号密码将自动生成</div>
-        <div style="color:var(--txt2)">账号 = ERP &nbsp;|&nbsp; 密码 = ERP+666</div>
-        <div style="color:var(--txt2);margin-top:2px">如 ERP为 <b>zhongsan1</b>，则密码为 <b>zhongsan1666</b></div>
-      </div>
-      <div id="add-user-result" style="display:none;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:var(--rs);padding:10px 12px;font-size:13px;margin-bottom:12px"></div>
-      <div class="btns"><button class="btn bp" onclick="addUser()" id="btn-add-user">✅ 添加</button><button class="btn bg" onclick="closeAddUser()">关闭</button></div>
-    </div>
-  </div>
-</div>
+<div class="modal-bg" id="assign-modal"><div class="modal" style="width:620px"><div class="modal-hd"><div class="t" id="assign-modal-title">📋 分配作品</div><div class="x" onclick="closeModal('assign-modal')">✕</div></div><div class="modal-bd">
+  <div class="btns" style="margin-bottom:12px"><button class="btn bo bsm" onclick="assignSelectAll()">全选</button><button class="btn bg bsm" onclick="assignSelectNone()">全不选</button></div>
+  <div class="assign-list" id="assign-modal-list"></div>
+  <div class="btns" style="margin-top:12px"><button class="btn bp" onclick="saveAssign()">💾 保存分配</button><button class="btn bg" onclick="closeModal('assign-modal')">取消</button></div>
+</div></div></div>
 
-<!-- ===== 评审人分配作品弹窗 ===== -->
-<div class="modal-bg" id="assign-modal">
-  <div class="modal" style="width:620px">
-    <div class="modal-hd"><div class="t" id="assign-title">📋 分配项目</div><div class="x" onclick="closeAssign()">✕</div></div>
-    <div class="modal-bd">
-      <div class="btns" style="margin-bottom:12px"><button class="btn bo bsm" onclick="assignSelectAll()">全选</button><button class="btn bg bsm" onclick="assignSelectNone()">全不选</button></div>
-      <div class="assign-list" id="assign-list"></div>
-      <div class="btns" style="margin-top:12px"><button class="btn bp" onclick="saveAssign()">💾 保存分配</button><button class="btn bg" onclick="closeAssign()">取消</button></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== 单个作品分配评审人弹窗 ===== -->
-<div class="modal-bg" id="single-assign-modal">
-  <div class="modal" style="width:420px">
-    <div class="modal-hd"><div class="t" id="single-assign-title">分配评审人</div><div class="x" onclick="closeSingleAssign()">✕</div></div>
-    <div class="modal-bd">
-      <div id="single-assign-reviewers"></div>
-      <div class="btns" style="margin-top:12px"><button class="btn bp" onclick="saveSingleAssign()">💾 保存</button><button class="btn bg" onclick="closeSingleAssign()">取消</button></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== 批量分配弹窗 ===== -->
-<div class="modal-bg" id="batch-assign-modal">
-  <div class="modal" style="width:480px">
-    <div class="modal-hd"><div class="t">📋 批量分配给评审人</div><div class="x" onclick="closeBatchAssign()">✕</div></div>
-    <div class="modal-bd">
-      <div class="fg"><label>选择评审人</label><select id="batch-reviewer"><option value="">请选择</option></select></div>
-      <div style="font-size:13px;color:var(--txt2);margin-bottom:12px" id="batch-info"></div>
-      <div class="btns"><button class="btn bp" onclick="doBatchAssign()">✅ 确认分配</button><button class="btn bg" onclick="closeBatchAssign()">取消</button></div>
-    </div>
-  </div>
-</div>
+<div class="modal-bg" id="single-assign-modal"><div class="modal" style="width:420px"><div class="modal-hd"><div class="t" id="single-assign-title">分配评审人</div><div class="x" onclick="closeModal('single-assign-modal')">✕</div></div><div class="modal-bd">
+  <div id="single-assign-reviewers"></div>
+  <div class="btns" style="margin-top:12px"><button class="btn bp" onclick="saveSingleAssign()">💾 保存</button><button class="btn bg" onclick="closeModal('single-assign-modal')">取消</button></div>
+</div></div></div>
 
 <!-- ===== 底部评分面板 ===== -->
 <div class="score-panel" id="score-panel">
@@ -387,30 +278,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="score-panel-body" id="score-panel-body"></div>
 </div>
 
-<div class="toast ok" id="toast">🔗 链接已复制：http://10.255.76.105:8765/</div>
+<div class="toast ok" id="toast"></div>
 
 <script>
-var rvData=[],usersData=[],subsData=[],importExcelFile=null;
-var authToken=localStorage.getItem('review_token')||'';
-var currentUser=null;
-var currentFilter='all',selectedFiles=[],selectedSubIds=new Set();
-var singleAssignSubId='',assignUser='';
+// ========== 数据层 ==========
+function getStore(key,def){try{var d=localStorage.getItem(key);return d?JSON.parse(d):def}catch(e){return def}}
+function setStore(key,val){localStorage.setItem(key,JSON.stringify(val))}
 
-// ========== 登录 ==========
-function apiHeaders(){var h={'Content-Type':'application/json'};if(authToken)h['Authorization']='Bearer '+authToken;return h}
+function initDefaultData(){
+  if(!getStore('review_initialized',false)){
+    var users=[
+      {username:'admin',password:'admin888',display_name:'管理员',role:'admin',assigned:[]},
+      {username:'zhongjialin.bob',password:'zhongjialin.bob666',display_name:'钟佳琳',role:'reviewer',assigned:['sub_030125025b13']},
+      {username:'liujie543',password:'liujie543666',display_name:'刘洁',role:'reviewer',assigned:['sub_fc7d4775cbc6']}
+    ];
+    var subs=[
+      {id:'sub_fc7d4775cbc6',name:'测试作品',erp:'test001',direction:'1',
+        intro:'这是一个基于Claude的测试作品，用于验证评审系统功能。通过Claude辅助生成代码框架，实现自动化数据处理流程。',
+        pain:'手动处理数据效率低，容易出错，需要人工逐一核对',materials:'',workUrl:'',workHtml:'',
+        submitted_at:'2026-06-16 19:10:41',status:'done',
+        evaluation:{threshold:{claude_usage:{pass:true,reason:'代码中包含Claude API调用痕迹，使用了Claude辅助生成核心逻辑'},completeness:{pass:true,reason:'作品包含完整的功能实现和代码文件'},direction_fit:{pass:true,reason:'作品聚焦个人工作提效，符合方向1要求'}},quality:{value:{score:2,reason:'仅实现基础数据处理功能，实际价值有限'},feasibility:{score:2,reason:'功能较为简单，缺乏完整的用户场景验证'},ai_depth:{score:1,reason:'Claude仅用于生成代码框架，未深度融合'}},total_score:5,recommendation:'pending',core_reason:'Claude使用深度不足，仅用于代码生成辅助，未体现AI核心价值；实际价值和落地可行性均偏低',suggestions:['深化Claude在业务逻辑中的应用，而非仅用于代码生成','增加更多实际业务场景验证','考虑将Claude用于智能决策而非简单生成']}},
+      {id:'sub_030125025b13',name:'今日局（出行小程序）',erp:'111',direction:'3',
+        intro:'今日局是一款基于Claude AI的出行小程序，为用户提供智能出行方案推荐。通过自然语言交互，用户可以快速获取最优出行方案，包括路线规划、费用对比、时间预估等功能。Claude深度参与从需求分析到方案设计的全过程。',
+        pain:'传统出行规划需要用户在多个平台间反复比对，效率低下且容易遗漏优惠信息',materials:'',workUrl:'http://10.255.76.105:8765/',workHtml:'',
+        submitted_at:'2026-06-17 14:06:34',status:'done',
+        evaluation:{threshold:{claude_usage:{pass:true,reason:'作品全流程使用Claude进行需求分析、方案设计和代码实现，Claude参与度深'},completeness:{pass:true,reason:'作品包含完整的小程序功能和在线演示地址'},direction_fit:{pass:true,reason:'属于产品创新落地方向，有明确的用户场景和产品形态'}},quality:{value:{score:4,reason:'解决了用户真实痛点，出行规划效率提升明显'},feasibility:{score:3,reason:'已有小程序原型，但需进一步验证用户接受度'},ai_depth:{score:3,reason:'Claude参与需求分析和方案设计，但AI交互模式可进一步深化'}},total_score:10,recommendation:'pending',core_reason:'作品方向明确，解决了真实用户痛点；Claude在需求分析和方案设计中发挥了关键作用；但AI交互模式还有深化空间，落地可行性需进一步验证',suggestions:['增加Claude在实时出行决策中的深度参与','完善用户交互体验，减少使用门槛','加强数据来源的多样性和实时性']}}
+    ];
+    // judge_score: null or {value,feasibility,ai_depth,demo,innovation,comment,result,total_score}
+    setStore('review_users',users);
+    setStore('review_submissions',subs);
+    setStore('review_initialized',true);
+  }
+}
+
+function getUsers(){return getStore('review_users',[])}
+function saveUsers(u){setStore('review_users',u)}
+function getSubmissions(){return getStore('review_submissions',[])}
+function saveSubmissions(s){setStore('review_submissions',s)}
+function findSub(id){return getSubmissions().find(function(s){return s.id===id})}
+
+// ========== 认证 ==========
+var currentUser=null;
+var currentScoreId='';
+var judgeCache={};
+var singleAssignSubId='';
+var assignUser='';
+var htmlFileContent='';
+var currentFilter='all';
+var selectedSubIds=new Set();
+
+window.onload=function(){initDefaultData();checkAuth()};
 
 function checkAuth(){
-  if(!authToken){showLogin();return}
-  fetch('/api/me',{headers:apiHeaders()}).then(function(r){return r.json()}).then(function(d){
-    if(d.error){showLogin();return}
-    currentUser=d;onLoginSuccess(d);
-  }).catch(function(){showLogin()});
+  var saved=getStore('review_session',null);
+  if(!saved){showLogin();return}
+  var users=getUsers();var u=users.find(function(x){return x.username===saved});
+  if(!u){showLogin();return}
+  currentUser=u;onLoginSuccess(u);
 }
 
 function showLogin(){
   document.getElementById('login-overlay').style.display='';
   document.getElementById('app-main').style.display='none';
-  authToken='';localStorage.removeItem('review_token');currentUser=null;
+  currentUser=null;setStore('review_session',null);
 }
 
 function doLogin(){
@@ -418,544 +348,330 @@ function doLogin(){
   var p=document.getElementById('login-pass').value.trim();
   var errEl=document.getElementById('login-err');
   if(!u||!p){errEl.textContent='请输入账号和密码';errEl.style.display='block';return}
-  var btn=document.getElementById('btn-login');
-  btn.disabled=true;btn.textContent='⏳ 登录中...';
+  var btn=document.getElementById('btn-login');btn.disabled=true;btn.textContent='⏳ 登录中...';
   errEl.style.display='none';
-  fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})})
-  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
-  .then(function(d){
+  setTimeout(function(){
+    var users=getUsers();var found=users.find(function(x){return x.username===u&&x.password===p});
     btn.disabled=false;btn.textContent='登 录';
-    if(d.error){errEl.textContent=d.error;errEl.style.display='block';return}
-    authToken=d.token;localStorage.setItem('review_token',authToken);
-    currentUser=d;onLoginSuccess(d);
-  }).catch(function(e){
-    btn.disabled=false;btn.textContent='登 录';
-    errEl.textContent='登录失败：'+e.message;errEl.style.display='block';
-  });
+    if(!found){errEl.textContent='账号或密码错误';errEl.style.display='block';return}
+    currentUser=found;setStore('review_session',u);onLoginSuccess(found);
+  },300);
 }
 
 function onLoginSuccess(d){
   document.getElementById('login-overlay').style.display='none';
   document.getElementById('app-main').style.display='block';
-  document.getElementById('user-info').textContent=d.display_name+(d.role==='admin'?' [管理员]':'');
+  document.getElementById('user-info').textContent=d.display_name+(d.role==='admin'?' [管理员]':' [评委]');
   setupTabs(d.role);
-  loadAll();
-  loadServerInfo();
 }
 
-function doLogout(){authToken='';localStorage.removeItem('review_token');currentUser=null;showLogin()}
+function doLogout(){currentUser=null;setStore('review_session',null);showLogin()}
 
 function setupTabs(role){
   var tabsEl=document.getElementById('main-tabs');
-  // 保留评审Tab，管理Tab按角色添加
-  var adminTabs='';
+  var h='<div class="tab active" data-tab="review" onclick="switchTab(\'review\')">📋 评审作品</div>';
   if(role==='admin'){
-    adminTabs='<div class="tab" data-tab="upload" onclick="switchTab(\'upload\')">📥 上传作品</div>';
-    adminTabs+='<div class="tab" data-tab="assign" onclick="switchTab(\'assign\')">📋 分配项目</div>';
-    adminTabs+='<div class="tab" data-tab="judges" onclick="switchTab(\'judges\')">👥 评审人</div>';
-    adminTabs+='<div class="tab" data-tab="overview" onclick="switchTab(\'overview\')">📊 总览</div>';
+    h+='<div class="tab" data-tab="upload" onclick="switchTab(\'upload\')">📥 上传作品</div>';
+    h+='<div class="tab" data-tab="assign" onclick="switchTab(\'assign\')">📋 分配项目</div>';
+    h+='<div class="tab" data-tab="judges" onclick="switchTab(\'judges\')">👥 评审人</div>';
+    h+='<div class="tab" data-tab="overview" onclick="switchTab(\'overview\')">📊 总览</div>';
   }
-  tabsEl.innerHTML='<div class="tab active" data-tab="review" onclick="switchTab(\'review\')">📋 评审作品</div>'+adminTabs;
+  tabsEl.innerHTML=h;
+  renderReviewList();
+  if(role==='admin'){renderAssignTab();renderJudgesTab();renderOverview()}
 }
 
 function switchTab(name){
   document.querySelectorAll('#main-tabs .tab').forEach(function(t){t.classList.toggle('active',t.getAttribute('data-tab')===name)});
   document.querySelectorAll('.tc').forEach(function(t){t.classList.remove('active')});
   var el=document.getElementById('tab-'+name);if(el)el.classList.add('active');
-  if(name==='assign')renderAssignTable();
+  if(name==='review')renderReviewList();
+  if(name==='assign')renderAssignTab();
+  if(name==='judges')renderJudgesTab();
   if(name==='overview')renderOverview();
 }
 
-// ========== 初始化 ==========
-window.onload=function(){
-  // 静态展示模式：自动以管理员身份登录，无需后端API
-  currentUser={display_name:'管理员',role:'admin',username:'admin'};
-  document.getElementById('login-overlay').style.display='none';
-  document.getElementById('app-main').style.display='block';
-  document.getElementById('user-info').textContent='管理员 [管理员]';
-  setupTabs('admin');
-};
-
-function loadAll(){loadRv();if(currentUser&&currentUser.role==='admin'){loadUsers();loadSubs()}}
-
-function loadRv(){
-  fetch('/api/submissions',{headers:apiHeaders()}).then(function(r){
-    if(r.status===401){showLogin();return Promise.reject('未登录')}
-    return r.json()
-  }).then(function(d){rvData=d;renderList()}).catch(function(){});
-}
-
-function loadUsers(){
-  fetch('/api/admin/users').then(function(r){return r.json()}).then(function(d){
-    if(d.error)return;usersData=d;renderUsers();renderOverview();renderAssignTable();
-  });
-}
-
-function loadSubs(){
-  fetch('/api/admin/submissions').then(function(r){return r.json()}).then(function(d){
-    if(d.error)return;subsData=d;renderAssignStats();renderAssignTable();renderOverview();
-  });
-}
-
 // ========== 评审列表 ==========
-function renderStats(){
-  var total=rvData.length;
-  var done=rvData.filter(function(d){return d.status==='done'}).length;
-  var judged=rvData.filter(function(d){return d.judge_score&&d.judge_score.total_score>0}).length;
-  var adv=rvData.filter(function(d){return d.judge_score&&d.judge_score.result==='advance'}).length;
-  var el2=rvData.filter(function(d){return d.judge_score&&d.judge_score.result==='eliminate'}).length;
+function renderReviewList(){
+  var subs=getSubmissions();
+  var role=currentUser.role;
+  // 评委只看分配给自己的
+  var mySubs=role==='admin'?subs:subs.filter(function(s){
+    var users=getUsers();var me=users.find(function(u){return u.username===currentUser.username});
+    return me&&me.assigned&&me.assigned.indexOf(s.id)>=0;
+  });
 
-  var h='';
-  h+='<div class="stat-item"><div class="num">'+total+'</div><div class="lab">作品总数</div></div>';
-  h+='<div class="stat-item"><div class="num" style="color:var(--pri)">'+done+'</div><div class="lab">AI已评审</div></div>';
+  var total=mySubs.length;
+  var aiDone=mySubs.filter(function(s){return s.status==='done'}).length;
+  var judged=mySubs.filter(function(s){return s.judge_score&&s.judge_score.total_score>0}).length;
+  var h='<div class="stat-item"><div class="num">'+total+'</div><div class="lab">作品总数</div></div>';
+  h+='<div class="stat-item"><div class="num" style="color:var(--pri)">'+aiDone+'</div><div class="lab">AI已评审</div></div>';
   h+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+judged+'</div><div class="lab">评委已评</div></div>';
-  if(judged>0){
-    h+='<div class="stat-item"><div class="num" style="color:var(--ok)">'+adv+'</div><div class="lab">晋级</div></div>';
-    h+='<div class="stat-item"><div class="num" style="color:var(--err)">'+el2+'</div><div class="lab">淘汰</div></div>';
-  }
-  h+='<div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:8px">';
-  h+='<button class="btn bo bsm" onclick="expCSV()">📊 导出</button>';
-  if(currentUser&&currentUser.role==='admin')h+='<button class="btn bg bsm" onclick="clearAll()">🗑️ 清空</button>';
-  h+='</div>';
+  h+='<div style="flex:1"></div>';
   document.getElementById('stat-bar').innerHTML=h;
-}
 
-function renderList(){
-  renderStats();
   var c=document.getElementById('rv-list');
-  if(!rvData.length){
-    c.innerHTML='<div class="card"><div class="empty"><div class="ei">📭</div><h2>暂无作品</h2><p>'+(currentUser&&currentUser.role==='admin'?'点击「上传作品」Tab添加':'等待管理员导入作品')+'</p></div></div>';
-    return;
-  }
+  if(!mySubs.length){c.innerHTML='<div class="card"><div class="empty"><div class="ei">📭</div><h2>暂无作品</h2><p>'+(role==='admin'?'点击「上传作品」添加':'等待管理员分配作品')+'</p></div></div>';return}
+
   var dirMap={'1':'方向1提效','2':'方向2难题','3':'方向3创新'};
-  var stMap={pending:{t:'⏳ 待评审',c:'st-pending'},evaluating:{t:'🔄 评审中',c:'st-evaluating'},done:{t:'✅ 已评审',c:'st-done'},failed:{t:'❌ 失败',c:'st-failed'}};
-  var h='<div class="card"><div class="ct">📋 作品列表（'+rvData.length+'件）</div>';
-  h+=rvData.map(function(d,i){
-    var st=stMap[d.status]||stMap.pending;
-    var s=d.submission||{};
+  h='<div class="card"><div class="ct">📋 作品列表（'+mySubs.length+'件）</div>';
+  mySubs.forEach(function(s,i){
+    var stMap={pending:{t:'⏳ 待评审',c:'st-pending'},evaluating:{t:'🔄 评审中',c:'st-evaluating'},done:{t:'✅ 已评审',c:'st-done'},failed:{t:'❌ 失败',c:'st-failed'}};
+    var st=stMap[s.status]||stMap.pending;
     var aiRec='';
-    if(d.status==='done'&&d.evaluation){
-      var r=d.evaluation.recommendation;if(r==='eliminate')r='pending';
+    if(s.status==='done'&&s.evaluation){
+      var r=s.evaluation.recommendation;if(r==='eliminate')r='pending';
       var rm={advance:'🟢推荐晋级',pending:'🟡建议待议'};
       var rc={advance:'st-advance',pending:'st-pending2'};
       aiRec=' <span class="sli-status '+rc[r]+'">'+rm[r]+'</span>';
     }
     var jBadge='';
-    if(d.judge_score&&d.judge_score.total_score>0){
-      var jRes=d.judge_score.result;
-      var jResMap={advance:'🟢晋级',pending:'🟡待议',eliminate:'🔴淘汰'};
-      var jResCls={advance:'st-advance',pending:'st-pending2',eliminate:'st-eliminate'};
-      jBadge=' <span class="sli-status '+jResCls[jRes]+'">👨‍⚖️'+jResMap[jRes]+'</span>';
+    if(s.judge_score&&s.judge_score.total_score>0){
+      var jr=s.judge_score.result;
+      var jrm={advance:'🟢晋级',pending:'🟡待议',eliminate:'🔴淘汰'};
+      var jrc={advance:'st-advance',pending:'st-pending2',eliminate:'st-eliminate'};
+      jBadge=' <span class="sli-status '+jrc[jr]+'">👨‍⚖️'+jrm[jr]+'</span>';
     }
-    return '<div class="slist-item" onclick="viewDetail(\''+d.id+'\')"><div class="sli-top"><div class="sli-name">'+(i+1)+'. '+(s.name||'')+'</div><div><span class="sli-status '+st.c+'">'+st.t+'</span>'+aiRec+jBadge+'</div></div><div class="sli-meta">ERP: '+(s.erp||'')+' · '+(dirMap[s.direction]||'')+' · '+(d.submitted_at||'')+(d.attachments&&d.attachments.length?' · 📎'+d.attachments.length:'')+'</div></div>';
-  }).join('');
+    var workType=s.workUrl?'🌐网址版':s.workHtml?'📄HTML版':'📎附件';
+    h+='<div class="slist-item" onclick="viewDetail(\''+s.id+'\')"><div class="sli-top"><div class="sli-name">'+(i+1)+'. '+s.name+'</div><div><span class="sli-status '+st.c+'">'+st.t+'</span>'+aiRec+jBadge+'</div></div>';
+    h+='<div class="sli-meta">ERP: '+s.erp+' · '+dirMap[s.direction]+' · '+s.submitted_at+' · '+workType+'</div></div>';
+  });
   h+='</div>';
   c.innerHTML=h;
+  document.getElementById('rv-detail').style.display='none';
+  document.getElementById('rv-list').style.display='';
+  document.getElementById('stat-bar').style.display='';
 }
 
-// ========== 详情 ==========
+// ========== 详情页 ==========
 function viewDetail(id){
-  var d=null;for(var i=0;i<rvData.length;i++)if(rvData[i].id===id){d=rvData[i];break}
-  if(!d)return;
+  var s=findSub(id);if(!s)return;
   document.getElementById('rv-list').style.display='none';
-  document.getElementById('rv-detail').style.display='';
   document.getElementById('stat-bar').style.display='none';
-  document.querySelector('.hdr .right').style.display='none';
+  document.getElementById('rv-detail').style.display='';
 
-  var s=d.submission||{};
   var dirMap={'1':'方向1——个人日常工作提效','2':'方向2——业务实际难题解决','3':'方向3——产品创新落地'};
   var h='<div class="detail-back" onclick="backToList()">← 返回列表</div>';
+
+  // 基本信息
   h+='<div class="card"><div class="ct">📝 作品信息</div>';
-  h+='<table style="width:100%;font-size:13px"><tr><td style="width:100px;color:var(--txt2)">作品名称</td><td style="font-weight:600">'+(s.name||'')+'</td></tr>';
-  h+='<tr><td style="color:var(--txt2)">参赛者ERP</td><td>'+(s.erp||'')+'</td></tr>';
+  h+='<table style="width:100%;font-size:13px">';
+  h+='<tr><td style="width:100px;color:var(--txt2)">作品名称</td><td style="font-weight:600">'+s.name+'</td></tr>';
+  h+='<tr><td style="color:var(--txt2)">参赛者ERP</td><td>'+s.erp+'</td></tr>';
   h+='<tr><td style="color:var(--txt2)">参赛方向</td><td>'+(dirMap[s.direction]||'')+'</td></tr>';
-  if(s.intro)h+='<tr><td style="color:var(--txt2)">作品介绍</td><td style="white-space:pre-wrap">'+s.intro+'</td></tr>';
-  if(s.pain)h+='<tr><td style="color:var(--txt2)">核心痛点</td><td style="white-space:pre-wrap">'+s.pain+'</td></tr>';
-  if(s.materials)h+='<tr><td style="color:var(--txt2)">其他材料</td><td style="white-space:pre-wrap">'+s.materials+'</td></tr>';
-  h+='<tr><td style="color:var(--txt2)">提交时间</td><td>'+(d.submitted_at||'')+'</td></tr></table></div>';
+  if(s.intro)h+='<tr><td style="color:var(--txt2)">作品介绍</td><td style="white-space:pre-wrap">'+esc(s.intro)+'</td></tr>';
+  if(s.pain)h+='<tr><td style="color:var(--txt2)">核心痛点</td><td style="white-space:pre-wrap">'+esc(s.pain)+'</td></tr>';
+  h+='<tr><td style="color:var(--txt2)">提交时间</td><td>'+s.submitted_at+'</td></tr>';
+  h+='</table></div>';
 
-  // ===== 判断作品类型：网址 vs 附件 =====
-  var materialUrls=[];
-  if(s.materials){
-    var urlRegex=/(https?:\/\/[^\s<>"']+)/g;
-    var m;
-    while((m=urlRegex.exec(s.materials))!==null){
-      materialUrls.push(m[1]);
-    }
-  }
-  var hasHtmlAttachment=d.attachments&&d.attachments.some(function(a){return(a.filename||'').endsWith('.html')&&!a.generated});
-  var isUrlWork=materialUrls.length>0&&!hasHtmlAttachment;
-
-  if(isUrlWork){
-    // ===== 网址类作品：直接 iframe 嵌入展示 =====
-    materialUrls.forEach(function(url,idx){
-      h+='<div class="card" style="border:3px solid var(--ok);background:linear-gradient(135deg,#f0fdf4,#fff)">';
-      h+='<div class="ct" style="color:var(--ok);font-size:17px">🌐 作品网站 '+(materialUrls.length>1?'#'+(idx+1)+' ':'')+'<span style="font-size:11px;font-weight:400;color:var(--acc);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:10px;margin-left:6px">线上部署</span></div>';
-      h+='<div style="font-size:12px;color:var(--txt2);margin-bottom:8px;word-break:break-all">📍 '+url+'</div>';
-      h+='<div style="position:relative">';
-      h+='<iframe id="url-frame-'+idx+'" src="'+url+'" style="width:100%;height:700px;border:1px solid #BBF7D0;border-radius:var(--rs);background:#fff" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals" onload="this.parentElement.querySelector(\'.iframe-loading\')&&this.parentElement.querySelector(\'.iframe-loading\').remove()"></iframe>';
-      h+='<div class="iframe-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#f0fdf4;border-radius:var(--rs);flex-direction:column;gap:12px"><div class="spinner" style="display:inline-block"></div><div style="color:var(--txt2);font-size:14px">正在加载网站...</div><div style="color:var(--txt3);font-size:12px">如长时间未加载，请点击下方新窗口打开</div></div>';
-      h+='</div>';
-      h+='<div class="btns" style="margin-top:10px">';
-      h+='<a href="'+url+'" target="_blank" class="btn bok" style="font-size:15px;padding:10px 24px">🔗 新窗口全屏打开（推荐）</a>';
-      h+='<button class="btn bg bsm" onclick="document.getElementById(\'url-frame-'+idx+'\').src=\''+url+'\'">🔄 刷新加载</button>';
-      h+='</div></div>';
-    });
+  // ===== 作品最终呈现形式 =====
+  h+='<div class="card" style="border:3px solid var(--ok);background:linear-gradient(135deg,#f0fdf4,#fff)">';
+  if(s.workUrl){
+    // 网址版：跳转链接 + iframe预览
+    h+='<div class="ct" style="color:var(--ok);font-size:17px">🌐 作品网站 <span style="font-size:11px;font-weight:400;color:var(--acc);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:10px;margin-left:6px">线上部署</span></div>';
+    h+='<div style="font-size:12px;color:var(--txt2);margin-bottom:10px;word-break:break-all">📍 '+esc(s.workUrl)+'</div>';
+    h+='<iframe src="'+esc(s.workUrl)+'" style="width:100%;height:600px;border:1px solid #BBF7D0;border-radius:var(--rs);background:#fff" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>';
+    h+='<div class="btns" style="margin-top:10px"><a href="'+esc(s.workUrl)+'" target="_blank" class="btn bok" style="font-size:15px;padding:10px 24px">🔗 新窗口全屏打开（推荐）</a></div>';
+  }else if(s.workHtml){
+    // HTML版：直接渲染
+    h+='<div class="ct" style="color:var(--ok);font-size:17px">▶ 作品运行效果 <span style="font-size:11px;font-weight:400;color:var(--txt2);background:rgba(107,114,128,.1);padding:2px 8px;border-radius:10px;margin-left:6px">HTML直接渲染</span></div>';
+    h+='<iframe id="html-frame" style="width:100%;height:600px;border:1px solid #BBF7D0;border-radius:var(--rs);background:#fff" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>';
+    h+='<div class="btns" style="margin-top:10px"><button class="btn bok" onclick="openHtmlFullscreen(\''+id+'\')">🔗 新窗口全屏打开</button></div>';
   }else{
-    // ===== 附件类作品：优先展示HTML附件，其次AI生成演示 =====
-    // 先扫描附件中的HTML文件（排除AI生成的demo.html）
-    var userHtmlFiles=[];
-    if(d.attachments&&d.attachments.length){
-      d.attachments.forEach(function(a){
-        var fn=a.filename||'';
-        var ext=fn.split('.').pop().toLowerCase();
-        if(ext==='html'&&fn!=='demo.html'&&!a.generated){
-          a._url='/api/file/'+d.id+'/'+encodeURIComponent(fn);
-          a._sz=a.size<1024?a.size+'B':a.size<1048576?(a.size/1024).toFixed(1)+'KB':(a.size/1048576).toFixed(1)+'MB';
-          userHtmlFiles.push(a);
-        }
-      });
-    }
-    var demoFile=d.demo_file||(d.attachments&&d.attachments.find(function(a){return a.filename==='demo.html'}));
-
-    if(userHtmlFiles.length){
-      // ① 有用户上传的HTML附件 → 直接大屏展示（最高优先级）
-      var mainHtml=userHtmlFiles[0];
-      h+='<div class="card" style="border:3px solid var(--ok);background:linear-gradient(135deg,#f0fdf4,#fff)">';
-      h+='<div class="ct" style="color:var(--ok);font-size:17px">▶ 作品运行效果 <span style="font-size:11px;font-weight:400;color:var(--txt2);background:rgba(107,114,128,.1);padding:2px 8px;border-radius:10px;margin-left:6px">'+mainHtml.filename+' ('+mainHtml._sz+')</span></div>';
-      h+='<iframe src="'+mainHtml._url+'" style="width:100%;height:700px;border:1px solid #BBF7D0;border-radius:var(--rs);background:#fff" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>';
-      h+='<div class="btns" style="margin-top:10px">';
-      h+='<a href="'+mainHtml._url+'" target="_blank" class="btn bok" style="font-size:15px;padding:10px 24px">🔗 新窗口全屏打开（推荐）</a>';
-      if(userHtmlFiles.length>1){
-        userHtmlFiles.slice(1).forEach(function(a2){
-          h+='<a href="'+a2._url+'" target="_blank" class="btn bo bsm">📄 '+a2.filename+'</a>';
-        });
-      }
-      h+='</div></div>';
-    }else if(demoFile){
-      // ② 没有用户HTML，但有AI生成的demo
-      var demoUrl='/api/file/'+d.id+'/'+encodeURIComponent(typeof demoFile==='string'?demoFile:demoFile.filename);
-      h+='<div class="card" style="border:3px solid var(--ok);background:linear-gradient(135deg,#f0fdf4,#fff)">';
-      h+='<div class="ct" style="color:var(--ok);font-size:17px">▶ 作品最终运行效果 <span style="font-size:11px;font-weight:400;color:var(--acc);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:10px;margin-left:6px">AI生成演示</span></div>';
-      h+='<iframe src="'+demoUrl+'" style="width:100%;height:700px;border:1px solid #BBF7D0;border-radius:var(--rs);background:#fff" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>';
-      h+='<div class="btns" style="margin-top:10px">';
-      h+='<a href="'+demoUrl+'" target="_blank" class="btn bok" style="font-size:15px;padding:10px 24px">🔗 新窗口全屏打开（推荐）</a>';
-      h+='<button class="btn bg bsm" onclick="regenerateDemo(\''+d.id+'\')">🔄 重新生成</button>';
-      h+='</div></div>';
-    }else if(d.demo_error){
-      // ③ demo生成失败
-      h+='<div class="card" style="border:2px solid var(--err);background:linear-gradient(135deg,#fef2f2,#fff)">';
-      h+='<div class="ct" style="color:var(--err)">❌ 演示生成失败</div>';
-      h+='<div style="font-size:13px;color:var(--txt2);margin-bottom:12px">'+d.demo_error+'</div>';
-      h+='<button class="btn bp" onclick="regenerateDemo(\''+d.id+'\')">🔄 重新生成</button>';
-      h+='</div>';
-    }else{
-      // ④ 什么都没有，提供生成demo按钮
-      h+='<div class="card" style="border:2px dashed var(--ok);text-align:center;padding:30px;background:linear-gradient(135deg,#f0fdf4,#fff)">';
-      h+='<div style="font-size:36px;margin-bottom:8px">🎨</div>';
-      h+='<div style="font-size:16px;font-weight:600;margin-bottom:6px">生成作品最终运行效果</div>';
-      h+='<div style="font-size:13px;color:var(--txt2);margin-bottom:16px">AI将根据作品描述生成可交互的HTML演示页面，让评委直观看到作品效果</div>';
-      h+='<button class="btn bok" style="font-size:15px;padding:10px 28px" onclick="generateDemo(\''+d.id+'\')">🎨 生成作品演示</button>';
-      h+='</div>';
-    }
+    h+='<div style="text-align:center;padding:30px"><div style="font-size:36px;margin-bottom:8px">📎</div><div style="font-size:14px;color:var(--txt2)">该作品无在线演示地址或HTML文件</div></div>';
   }
+  h+='</div>';
 
-  // ===== 附件展示区 =====
-  if(d.attachments&&d.attachments.length){
-    // 扫描附件类型
-    var htmlFiles=[],pyFiles=[],imgFiles=[],codeFiles=[],otherFiles=[];
-    d.attachments.forEach(function(a,i){
-      var ext=(a.filename||'').split('.').pop().toLowerCase();
-      a._idx=i;a._url='/api/file/'+d.id+'/'+encodeURIComponent(a.filename);
-      a._sz=a.size<1024?a.size+'B':a.size<1048576?(a.size/1024).toFixed(1)+'KB':(a.size/1048576).toFixed(1)+'MB';
-      // demo.html和用户HTML已在上方展示，这里跳过
-      if(a.filename==='demo.html'||a.generated)return;
-      if(ext==='html')htmlFiles.push(a);
-      else if(ext==='py')pyFiles.push(a);
-      else if('png jpg jpeg gif bmp webp svg'.split(' ').indexOf(ext)>=0)imgFiles.push(a);
-      else if('md txt json js css py sh bat'.split(' ').indexOf(ext)>=0)codeFiles.push(a);
-      else if(ext==='pdf')otherFiles.push(a);
-      else otherFiles.push(a);
-    });
-
-    // HTML附件已在上方主展示区展示，这里不再重复
-
-    // Python文件：运行按钮
-    if(pyFiles.length){
-      h+='<div class="card" style="border:2px solid var(--acc)"><div class="ct" style="color:var(--acc)">🐍 Python代码运行 <span style="font-size:12px;color:var(--txt2);font-weight:400">('+pyFiles.length+'个文件)</span></div>';
-      h+='<div class="btns" style="margin-bottom:12px"><button class="btn bok" onclick="runCode(\''+d.id+'\')">▶ 运行全部Python代码</button></div>';
-      h+='<div id="run-output-'+d.id+'"></div>';
-      // 显示代码内容
-      pyFiles.forEach(function(a){
-        h+='<div style="margin-top:8px"><div style="font-size:13px;font-weight:600;margin-bottom:4px">📄 '+a.filename+' ('+a._sz+')</div>';
-        h+='<pre id="pre-'+a._idx+'" style="background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:var(--rs);overflow:auto;max-height:400px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-all">加载中...</pre></div>';
-        setTimeout(function(i2,url){fetch(url).then(function(r){return r.text()}).then(function(t){var el=document.getElementById('pre-'+i2);if(el)el.textContent=t}).catch(function(){var el=document.getElementById('pre-'+i2);if(el)el.textContent='加载失败'})}(a._idx,a._url),100);
-      });
-      h+='</div>';
-    }
-
-    // ③ 图片
-    if(imgFiles.length){
-      h+='<div class="card"><div class="ct">🖼️ 图片附件 ('+imgFiles.length+'张)</div>';
-      h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">';
-      imgFiles.forEach(function(a){
-        h+='<div><img src="'+a._url+'" style="width:100%;border-radius:var(--rs);border:1px solid var(--bd);cursor:pointer" onclick="window.open(this.src)" title="点击查看原图"><div style="font-size:12px;color:var(--txt2);text-align:center;margin-top:4px">'+a.filename+' ('+a._sz+')</div></div>';
-      });
-      h+='</div></div>';
-    }
-
-    // ④ 代码文件
-    if(codeFiles.length){
-      h+='<div class="card"><div class="ct">📄 代码文件</div>';
-      codeFiles.forEach(function(a){
-        h+='<div style="margin-bottom:8px"><div style="font-size:13px;font-weight:600;margin-bottom:4px">'+a.filename+' ('+a._sz+')</div>';
-        h+='<pre id="pre-'+a._idx+'" style="background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:var(--rs);overflow:auto;max-height:400px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-all">加载中...</pre></div>';
-        setTimeout(function(i2,url){fetch(url).then(function(r){return r.text()}).then(function(t){var el=document.getElementById('pre-'+i2);if(el)el.textContent=t}).catch(function(){var el=document.getElementById('pre-'+i2);if(el)el.textContent='加载失败'})}(a._idx,a._url),100);
-      });
-      h+='</div>';
-    }
-
-    // ⑤ 其他附件（PDF等）
-    if(otherFiles.length){
-      h+='<div class="card"><div class="ct">📎 其他附件</div>';
-      otherFiles.forEach(function(a){
-        var ext=(a.filename||'').split('.').pop().toLowerCase();
-        if(ext==='pdf'){
-          h+='<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;margin-bottom:4px">📕 '+a.filename+' ('+a._sz+')</div>';
-          h+='<iframe src="'+a._url+'" style="width:100%;height:500px;border:1px solid var(--bd);border-radius:var(--rs)"></iframe>';
-          h+='<a href="'+a._url+'" target="_blank" class="btn bo bsm" style="margin-top:4px">🔗 新窗口打开</a></div>';
-        }else{
-          h+='<div class="att-item">📎 <a href="'+a._url+'" target="_blank">'+a.filename+'</a> <span style="color:var(--txt2);font-size:12px">'+a._sz+'</span></div>';
-        }
-      });
-      h+='</div>';
-    }
-  }
-
-  // AI评审参考
+  // ===== AI评审报告 =====
   h+='<div class="card"><div class="ct">🤖 AI评审参考 <span style="font-size:11px;font-weight:400;color:var(--acc);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:10px;margin-left:6px">仅供参考</span></div>';
-  if(d.status==='pending'){h+='<div style="text-align:center;padding:20px;color:var(--txt2)">⏳ 排队等待评审中...</div>'}
-  else if(d.status==='evaluating'){h+='<div style="text-align:center;padding:20px"><span class="spinner"></span> <span style="margin-left:8px;color:var(--pri)">AI正在评审中，稍后刷新...</span></div>';setTimeout(function(){loadRv();viewDetail(id)},5000)}
-  else if(d.status==='failed'){h+='<div style="color:var(--err);padding:10px">❌ 评审失败: '+(d.error||'未知错误')+'</div>';h+='<button class="btn bo bsm" onclick="reEval(\''+d.id+'\')">🔄 重新评审</button>'}
-  else if(d.status==='done'&&d.evaluation){h+=renderAIReport(d)}
+  if(s.status==='pending'){h+='<div style="text-align:center;padding:20px;color:var(--txt2)">⏳ 排队等待评审中...</div>'}
+  else if(s.status==='evaluating'){h+='<div style="text-align:center;padding:20px"><span class="spinner"></span> <span style="margin-left:8px;color:var(--pri)">AI正在评审中...</span></div>'}
+  else if(s.status==='failed'){h+='<div style="color:var(--err);padding:10px">❌ 评审失败</div><button class="btn bo bsm" onclick="reEval(\''+s.id+'\')">🔄 重新评审</button>'}
+  else if(s.status==='done'&&s.evaluation){h+=renderAIReport(s)}
   h+='</div>';
 
-  // 评委评分入口（点击展开底部面板）
-  var js=d.judge_score||{};
-  var hasScore=js&&js.total_score>0;
-  h+='<div class="card" style="border:2px solid var(--pri);cursor:pointer;text-align:center;padding:16px" onclick="openScorePanel(\''+id+'\')">';
-  if(hasScore){
-    var resultMap={advance:'🟢 晋级',pending:'🟡 待议',eliminate:'🔴 淘汰'};
-    h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ 已评分：'+js.total_score+'/25 '+resultMap[js.result||'']+'</div>';
-    h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">点击修改评分</div>';
-  }else{
-    h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ 点击进行评分</div>';
-    h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">5个维度打分 + 评审结论 + 综合评价</div>';
+  // ===== 评委评分入口 =====
+  if(currentUser.role==='reviewer'||currentUser.role==='admin'){
+    var js=s.judge_score||{};
+    var hasScore=js&&js.total_score>0;
+    h+='<div class="card" style="border:2px solid var(--pri);cursor:pointer;text-align:center;padding:16px" onclick="openScorePanel(\''+id+'\')">';
+    if(hasScore){
+      var resultMap={advance:'🟢 晋级',pending:'🟡 待议',eliminate:'🔴 淘汰'};
+      h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ 已评分：'+js.total_score+'/25 '+resultMap[js.result||'']+'</div>';
+      h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">点击修改评分</div>';
+    }else{
+      h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ 点击进行评分</div>';
+      h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">5个维度打分 + 评审结论 + 综合评价</div>';
+    }
+    h+='</div>';
   }
-  h+='</div>';
 
-  // 给详情页底部留出空间，不被评分面板遮挡
   h+='<div style="height:60px"></div>';
-
   document.getElementById('rv-detail').innerHTML=h;
 
-  // 初始化底部评分面板
+  // HTML版iframe写入
+  if(s.workHtml){
+    setTimeout(function(){
+      var frame=document.getElementById('html-frame');
+      if(frame){var doc=frame.contentDocument||frame.contentWindow.document;doc.open();doc.write(s.workHtml);doc.close()}
+    },100);
+  }
+
+  // 初始化评分面板
   initScorePanel(id);
 }
 
-function renderAIReport(d){
-  var e=d.evaluation||{},th=e.threshold||{},q=e.quality||{},total=e.total_score||0,rec=e.recommendation||'pending';
+function openHtmlFullscreen(id){
+  var s=findSub(id);if(!s||!s.workHtml)return;
+  var w=window.open('','_blank');
+  w.document.open();w.document.write(s.workHtml);w.document.close();
+}
+
+function esc(t){if(!t)return'';return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function renderAIReport(s){
+  var e=s.evaluation||{},th=e.threshold||{},q=e.quality||{},total=e.total_score||0,rec=e.recommendation||'pending';
   if(rec==='eliminate')rec='pending';
   var allP=th.claude_usage&&th.claude_usage.pass&&th.completeness&&th.completeness.pass&&th.direction_fit&&th.direction_fit.pass;
   var rm={advance:{i:'🟢',l:'推荐晋级',c:'advance'},pending:{i:'🟡',l:'建议待议',c:'pending'}};
   var ri=rm[rec]||rm.pending;
-  function sc(s){return s>=4?'var(--ok)':s>=3?'var(--pri)':s>=2?'var(--acc)':'var(--err)'}
+  function sc(v){return v>=4?'var(--ok)':v>=3?'var(--pri)':v>=2?'var(--acc)':'var(--err)'}
+
   var h='<div style="border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:12px"><div style="padding:10px 14px;font-weight:600;background:'+(allP?'#F0FDF4':'#FFF7ED')+'">'+(allP?'✅ 门槛检查通过':'⚠️ 门槛检查存在不足')+'</div><div style="padding:0 14px 12px">';
   h+=thR('Claude使用验证',th.claude_usage);h+=thR('作品完整性',th.completeness);h+=thR('参赛方向符合性',th.direction_fit);
   h+='</div></div>';
-  if(allP){h+='<div style="border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:12px"><div style="padding:10px 14px;font-weight:600;background:#EEF2FF">质量评分 <span style="font-weight:400;color:var(--txt2)">总分 '+total+'/15</span></div><div style="padding:0 14px 12px">';h+=scR('实际价值',q.value,sc);h+=scR('落地可行性',q.feasibility,sc);h+=scR('AI融合深度',q.ai_depth,sc);h+='</div></div>'}
+
+  if(allP){
+    h+='<div style="border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:12px"><div style="padding:10px 14px;font-weight:600;background:#EEF2FF">质量评分 <span style="font-weight:400;color:var(--txt2)">总分 '+total+'/15</span></div><div style="padding:0 14px 12px">';
+    h+=scR('实际价值',q.value,sc);h+=scR('落地可行性',q.feasibility,sc);h+=scR('AI融合深度',q.ai_depth,sc);
+    h+='</div></div>';
+  }
+
   h+='<div class="concl '+ri.c+'"><div class="big">'+ri.i+'</div><div class="lab">'+ri.l+'</div><div class="det">'+(allP?total+'/15':'门槛未通过')+'</div><div style="font-size:11px;color:var(--acc);margin-top:4px">⚡ AI参考建议，最终结论由评委裁定</div></div>';
   h+='<div style="margin-top:8px"><b>核心理由：</b><span style="color:var(--txt2)">'+(e.core_reason||'—')+'</span></div>';
-  if(e.suggestions&&e.suggestions.length){h+='<div class="sug" style="margin-top:8px"><b>改进建议：</b><ol>';for(var i=0;i<e.suggestions.length;i++)h+='<li>'+e.suggestions[i]+'</li>';h+='</ol></div>'}
-  h+='<div class="btns" style="margin-top:12px"><button class="btn bo bsm" onclick="copyReport(\''+d.id+'\')">📋 复制报告</button><button class="btn bg bsm" onclick="reEval(\''+d.id+'\')">🔄 重新评审</button></div>';
+  if(e.suggestions&&e.suggestions.length){
+    h+='<div class="sug" style="margin-top:8px"><b>改进建议：</b><ol>';
+    for(var i=0;i<e.suggestions.length;i++)h+='<li>'+e.suggestions[i]+'</li>';
+    h+='</ol></div>';
+  }
+  h+='<div class="btns" style="margin-top:12px"><button class="btn bo bsm" onclick="copyReport(\''+s.id+'\')">📋 复制报告</button>';
+  if(currentUser.role==='admin')h+='<button class="btn bg bsm" onclick="reEval(\''+s.id+'\')">🔄 重新评审</button>';
+  h+='</div>';
   return h;
 }
 
 function thR(n,o){if(!o)return'<div class="th-row"><div class="th-info">'+n+'</div><span class="badge" style="background:rgba(107,114,128,.1);color:var(--txt2)">—</span></div>';return'<div class="th-row"><div class="th-info">'+n+'<div class="th-r">'+(o.reason||'')+'</div></div><span class="badge '+(o.pass?'b-p':'b-f')+'">'+(o.pass?'✅通过':'⚠️不足')+'</span></div>'}
-function scR(n,o,cf){if(!o)return'';var s=o.score||0,p=s/5*100,c=cf(s);var h='<div class="sc-row"><div class="sc-nm">'+n+'</div><div class="sc-tk"><div class="sc-fl" style="width:'+p+'%;background:'+c+'"></div></div><div class="sc-nm2" style="color:'+c+'">'+s+'</div></div>';if(o.reason)h+='<div class="sc-r">'+o.reason+'</div>';return h}
-
-// ========== 生成/重新生成演示 ==========
-function generateDemo(subId){
-  toast('🎨 演示生成已启动，约需2-5分钟...','info');
-  fetch('/api/generate-demo/'+subId,{method:'POST',headers:apiHeaders()})
-  .then(function(r){return r.json()}).then(function(d){
-    if(d.error){toast(d.error,'er');return}
-    if(d.demo_file){toast('✅ 演示已存在','ok');viewDetail(subId);return}
-    // 显示等待提示
-    showDemoGenerating(subId);
-  }).catch(function(){toast('请求失败','er')});
-}
-
-function regenerateDemo(subId){
-  if(!confirm('确认重新生成？需要约2-5分钟。'))return;
-  toast('🎨 重新生成中...','info');
-  // 先清除旧demo状态
-  fetch('/api/clear-demo/'+subId,{method:'POST',headers:apiHeaders()})
-  .then(function(){return fetch('/api/generate-demo/'+subId,{method:'POST',headers:apiHeaders()})})
-  .then(function(r){return r.json()}).then(function(d){
-    if(d.demo_file){toast('✅ 演示已存在','ok');viewDetail(subId);return}
-    showDemoGenerating(subId);
-  }).catch(function(){toast('请求失败','er')});
-}
-
-function showDemoGenerating(subId){
-  // 在页面顶部显示生成中的提示
-  var detail=document.getElementById('rv-detail');
-  var banner=detail.querySelector('.demo-generating');
-  if(!banner){
-    var first=detail.firstChild;
-    banner=document.createElement('div');
-    banner.className='demo-generating';
-    detail.insertBefore(banner,first);
-  }
-  banner.innerHTML='<div class="card" style="border:2px solid var(--pri);background:linear-gradient(135deg,#eef2ff,#fff);text-align:center;padding:24px"><div class="spinner" style="display:inline-block;vertical-align:middle;margin-right:8px"></div><span style="font-size:15px;font-weight:600;color:var(--pri)">正在生成作品演示...</span><div style="font-size:13px;color:var(--txt2);margin-top:8px">AI正在根据作品描述生成可交互的HTML演示页面，约需2-5分钟</div><div class="btns" style="margin-top:12px;justify-content:center"><button class="btn bp bsm" onclick="checkDemoReady(\''+subId+'\')">🔄 刷新查看</button></div></div>';
-  // 自动轮询（每10秒检查一次，最多30次=5分钟）
-  var count=0;
-  window._demoTimer=setInterval(function(){
-    count++;
-    fetch('/api/submission/'+subId,{headers:apiHeaders()}).then(function(r){return r.json()}).then(function(item){
-      if(item.demo_file){
-        clearInterval(window._demoTimer);toast('✅ 演示生成完成！','ok');viewDetail(subId);
-      }else if(item.demo_error){
-        clearInterval(window._demoTimer);toast('❌ 演示生成失败','er');viewDetail(subId);
-      }else if(count>=30){
-        clearInterval(window._demoTimer);
-        banner.innerHTML='<div class="card" style="border:2px solid var(--acc);text-align:center;padding:24px"><div style="font-size:15px;font-weight:600;color:var(--acc)">⏳ 演示仍在生成中</div><div style="font-size:13px;color:var(--txt2);margin-top:4px">生成时间较长，请稍后再刷新查看</div><div class="btns" style="margin-top:12px;justify-content:center"><button class="btn bp bsm" onclick="checkDemoReady(\''+subId+'\')">🔄 刷新查看</button></div></div>';
-      }
-    });
-  },10000);
-}
-
-function checkDemoReady(subId){
-  fetch('/api/submission/'+subId,{headers:apiHeaders()}).then(function(r){return r.json()}).then(function(item){
-    if(item.demo_file){toast('✅ 演示已生成！','ok');viewDetail(subId)}
-    else if(item.demo_error){toast('❌ 生成失败: '+item.demo_error,'er');viewDetail(subId)}
-    else{toast('⏳ 还在生成中，请稍后再刷新','info')}
-  });
-}
-
-// ========== 运行代码 ==========
-function runCode(subId){
-  var outputEl=document.getElementById('run-output-'+subId);
-  if(!outputEl)return;
-  outputEl.innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span> <span style="margin-left:8px;color:var(--pri)">正在运行代码...</span></div>';
-  fetch('/api/run/'+subId,{headers:apiHeaders()}).then(function(r){return r.json()}).then(function(d){
-    if(d.error){outputEl.innerHTML='<div style="color:var(--err);padding:10px">❌ '+d.error+'</div>';return}
-    var h='';
-
-    // Python运行结果
-    if(d.python_outputs&&d.python_outputs.length){
-      d.python_outputs.forEach(function(out){
-        h+='<div style="border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:12px">';
-        h+='<div style="padding:8px 12px;font-weight:600;font-size:13px;background:#FFF7ED;border-bottom:1px solid var(--bd)">🐍 '+out.filename+(out.exit_code!==undefined?' (退出码: '+out.exit_code+')':'')+'</div>';
-        if(out.error){
-          h+='<div style="padding:10px 12px;color:var(--err);font-size:13px">❌ '+out.error+'</div>';
-        }else{
-          if(out.stdout){
-            h+='<div style="padding:8px 12px;font-size:12px;border-bottom:1px solid var(--bd)"><b>输出(stdout)：</b></div>';
-            h+='<pre style="background:#1a1a2e;color:#e0e0e0;padding:12px;overflow:auto;max-height:300px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-all;margin:0">'+out.stdout.replace(/</g,'&lt;')+'</pre>';
-          }
-          if(out.stderr){
-            h+='<div style="padding:8px 12px;font-size:12px;border-bottom:1px solid var(--bd)"><b style="color:var(--acc)">错误(stderr)：</b></div>';
-            h+='<pre style="background:#2d1b1b;color:#f87171;padding:12px;overflow:auto;max-height:200px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-all;margin:0">'+out.stderr.replace(/</g,'&lt;')+'</pre>';
-          }
-          if(!out.stdout&&!out.stderr){
-            h+='<div style="padding:10px 12px;color:var(--txt2);font-size:13px">（无输出）</div>';
-          }
-        }
-        h+='</div>';
-      });
-    }
-
-    // 运行后新生成的HTML文件
-    if(d.html_files&&d.html_files.length){
-      var existingHtml=(rvData.find(function(s){return s.id===subId})||{}).attachments||[];
-      var existingNames=existingHtml.filter(function(a){return(a.filename||'').endsWith('.html')}).map(function(a){return a.filename});
-      var newHtml=d.html_files.filter(function(fn){return existingNames.indexOf(fn)<0});
-      if(newHtml.length){
-        h+='<div style="margin-bottom:12px"><div style="font-weight:600;margin-bottom:8px;color:var(--ok)">✅ 运行后生成的HTML文件：</div>';
-        newHtml.forEach(function(fn){
-          var url='/api/file/'+subId+'/'+encodeURIComponent(fn);
-          h+='<div style="margin-bottom:8px"><a href="'+url+'" target="_blank" class="btn bok bsm">🌐 打开 '+fn+'</a></div>';
-        });
-        h+='</div>';
-      }
-    }
-
-    if(!h)h='<div style="color:var(--txt2);padding:10px;font-size:13px">没有可运行的代码文件</div>';
-    outputEl.innerHTML=h;
-  }).catch(function(e){outputEl.innerHTML='<div style="color:var(--err);padding:10px">❌ 运行失败: '+e.message+'</div>'});
-}
-
-function backToList(){
-  document.getElementById('rv-list').style.display='';
-  document.getElementById('rv-detail').style.display='none';
-  document.getElementById('stat-bar').style.display='';
-  document.querySelector('.hdr .right').style.display='';
-  document.getElementById('score-panel').classList.remove('open');
-  loadRv();
-}
-
-function reEval(id){
-  fetch('/api/evaluate/'+id,{method:'POST',headers:apiHeaders()}).then(function(r){return r.json()}).then(function(d){
-    if(d.error)toast(d.error,'er');else{toast('评审已启动','info');setTimeout(function(){loadRv();viewDetail(id)},3000)}
-  }).catch(function(){toast('请求失败','er')});
-}
+function scR(n,o,cf){if(!o)return'';var v=o.score||0,p=v/5*100,c=cf(v);var h='<div class="sc-row"><div class="sc-nm">'+n+'</div><div class="sc-tk"><div class="sc-fl" style="width:'+p+'%;background:'+c+'"></div></div><div class="sc-nm2" style="color:'+c+'">'+v+'</div></div>';if(o.reason)h+='<div class="sc-r">'+o.reason+'</div>';return h}
 
 function copyReport(id){
-  var d=null;for(var i=0;i<rvData.length;i++)if(rvData[i].id===id){d=rvData[i];break}
-  if(!d||!d.evaluation)return;
-  var e=d.evaluation||{},th=e.threshold||{},q=e.quality||{};
+  var s=findSub(id);if(!s||!s.evaluation)return;
+  var e=s.evaluation||{},th=e.threshold||{},q=e.quality||{};
   var allP=th.claude_usage&&th.claude_usage.pass&&th.completeness&&th.completeness.pass&&th.direction_fit&&th.direction_fit.pass;
   var rec=e.recommendation||'pending';if(rec==='eliminate')rec='pending';
   var rm={advance:'🟢推荐晋级',pending:'🟡建议待议'};
-  var txt='## AI评审参考\n\n- **作品**：'+(d.submission?d.submission.name:'')+'\n- **ERP**：'+(d.submission?d.submission.erp:'')+'\n- **门槛**：'+(allP?'通过':'存在不足')+'\n- **质量评分**：'+(e.total_score||0)+'/15\n- **AI参考建议**：'+(rm[rec]||'—')+'\n- **核心理由**：'+(e.core_reason||'—')+'\n\n> ⚡ AI参考建议，最终结论由评委裁定';
-  navigator.clipboard.writeText(txt).then(function(){toast('已复制','ok')});
+  var txt='## AI评审参考\n\n- **作品**：'+s.name+'\n- **ERP**：'+s.erp+'\n- **门槛**：'+(allP?'通过':'存在不足')+'\n- **质量评分**：'+(e.total_score||0)+'/15\n- **AI参考建议**：'+(rm[rec]||'—')+'\n- **核心理由**：'+(e.core_reason||'—');
+  navigator.clipboard.writeText(txt).then(function(){toast('已复制','ok')}).catch(function(){toast('复制失败','er')});
 }
 
-// ========== 评委评分（底部面板） ==========
-var judgeCache={};
-var currentScoreId='';
+function reEval(id){
+  var subs=getSubmissions();var idx=subs.findIndex(function(s){return s.id===id});if(idx<0)return;
+  subs[idx].status='evaluating';subs[idx].evaluation=null;saveSubmissions(subs);
+  toast('🔄 AI评审已启动...','info');
+  // 模拟AI评审过程
+  setTimeout(function(){
+    subs=getSubmissions();idx=subs.findIndex(function(s){return s.id===id});if(idx<0)return;
+    subs[idx]=generateAIEval(subs[idx]);saveSubmissions(subs);viewDetail(id);
+    toast('✅ AI评审完成','ok');
+  },2000);
+  viewDetail(id);
+}
 
-function initCache(id){
-  var d=null;for(var i=0;i<rvData.length;i++)if(rvData[i].id===id){d=rvData[i];break}
-  if(d&&d.judge_score)judgeCache[id]=JSON.parse(JSON.stringify(d.judge_score));
-  else judgeCache[id]={value:0,feasibility:0,ai_depth:0,demo:0,innovation:0,comment:'',result:'',total_score:0}
+// ========== AI评审生成 ==========
+function generateAIEval(sub){
+  sub.status='done';
+  var intro=sub.intro||'';var pain=sub.pain||'';var name=sub.name||'';
+  var hasClaude=/claude/i.test(intro)||/claude/i.test(name);
+  var hasUrl=!!sub.workUrl;
+  var hasHtml=!!sub.workHtml;
+  var dirMap={'1':'提效','2':'难题','3':'创新'};
+  var dirLabel=dirMap[sub.direction]||'';
+
+  // 门槛检查
+  var claudePass=hasClaude;
+  var completePass=intro.length>20;
+  var dirFitPass=true;
+  var claudeReason=claudePass?'作品描述中包含Claude使用痕迹，体现了AI辅助开发':'未发现明显的Claude使用证据，建议补充Claude参与说明';
+  var completeReason=completePass?'作品介绍较为完整，功能描述清晰':'作品介绍过于简略，缺乏对功能的详细描述';
+  var dirFitReason='参赛方向为方向'+sub.direction+'（'+dirLabel+'），方向符合性'+(dirFitPass?'良好':'存疑');
+
+  // 质量评分
+  var valueScore=0,feasScore=0,aiScore=0;
+  var valueReason='',feasReason='',aiReason='';
+
+  // 基于内容长度和关键词简单评分
+  var contentLen=intro.length+pain.length;
+  if(contentLen>200){valueScore=4;valueReason='痛点描述清晰，解决方案有实际价值'}
+  else if(contentLen>100){valueScore=3;valueReason='痛点有一定真实性，但解决方案可更深入'}
+  else{valueScore=2;valueReason='痛点描述不够充分，实际价值有待验证'}
+
+  if(hasUrl||hasHtml){feasScore=4;feasReason='已有可运行的演示原型，落地可行性较高'}
+  else if(intro.length>100){feasScore=3;feasReason='有较详细的方案描述，但缺少实际演示'}
+  else{feasScore=2;feasReason='缺少可运行的演示，落地可行性待验证'}
+
+  if(claudePass&&/深度融合|核心|驱动|赋能/.test(intro)){aiScore=4;aiReason='Claude在作品中发挥核心驱动作用，AI融合深度高'}
+  else if(claudePass){aiScore=3;aiReason='Claude在作品中有一定应用，但融合深度可进一步提升'}
+  else{aiScore=1;aiReason='未发现Claude的深度应用，建议增强AI融合'}
+
+  var totalScore=valueScore+feasScore+aiScore;
+  var allPass=claudePass&&completePass&&dirFitPass;
+  var rec=allPass?(totalScore>=10?'advance':'pending'):'pending';
+  if(rec==='eliminate')rec='pending';
+
+  var coreReasons=[];
+  if(!allPass)coreReasons.push('门槛检查未全部通过');
+  if(valueScore<=2)coreReasons.push('实际价值偏低');
+  if(feasScore<=2)coreReasons.push('落地可行性不足');
+  if(aiScore<=2)coreReasons.push('AI融合深度不够');
+  if(!coreReasons.length)coreReasons.push('作品整体质量良好');
+
+  var suggestions=[];
+  if(aiScore<4)suggestions.push('深化Claude在业务逻辑中的应用，增强AI融合深度');
+  if(!hasUrl&&!hasHtml)suggestions.push('提供可运行的演示原型，增强落地说服力');
+  if(valueScore<4)suggestions.push('进一步完善痛点分析和解决方案的闭环');
+  if(feasScore<4)suggestions.push('增加用户场景验证和MVP演示');
+  if(suggestions.length<2)suggestions.push('持续优化用户体验和产品细节');
+
+  sub.evaluation={
+    threshold:{claude_usage:{pass:claudePass,reason:claudeReason},completeness:{pass:completePass,reason:completeReason},direction_fit:{pass:dirFitPass,reason:dirFitReason}},
+    quality:{value:{score:valueScore,reason:valueReason},feasibility:{score:feasScore,reason:feasReason},ai_depth:{score:aiScore,reason:aiReason}},
+    total_score:totalScore,recommendation:rec,
+    core_reason:coreReasons.join('；'),
+    suggestions:suggestions
+  };
+  return sub;
+}
+
+// ========== 评分面板 ==========
+function initScorePanel(id){
+  currentScoreId=id;
+  if(!judgeCache[id]){
+    var s=findSub(id);
+    judgeCache[id]=s&&s.judge_score?JSON.parse(JSON.stringify(s.judge_score)):{value:0,feasibility:0,ai_depth:0,demo:0,innovation:0,comment:'',result:'',total_score:0};
+  }
+  updateScorePanelHeader();
 }
 
 function openScorePanel(id){
   currentScoreId=id;
-  if(!judgeCache[id])initCache(id);
+  if(!judgeCache[id])initScorePanel(id);
   renderScorePanel();
   document.getElementById('score-panel').classList.add('open');
 }
 
 function toggleScorePanel(){
   var panel=document.getElementById('score-panel');
-  if(panel.classList.contains('open')){
-    panel.classList.remove('open');
-  }else if(currentScoreId){
-    panel.classList.add('open');
-  }
-}
-
-function initScorePanel(id){
-  currentScoreId=id;
-  if(!judgeCache[id])initCache(id);
-  // 更新面板标题和摘要
-  updateScorePanelHeader();
-  // 渲染面板内容
-  renderScorePanel();
+  if(panel.classList.contains('open'))panel.classList.remove('open');
+  else if(currentScoreId)panel.classList.add('open');
 }
 
 function updateScorePanelHeader(){
@@ -969,17 +685,19 @@ function updateScorePanelHeader(){
 }
 
 function renderScorePanel(){
-  var id=currentScoreId;
-  var js=judgeCache[id]||{value:0,feasibility:0,ai_depth:0,demo:0,innovation:0,comment:'',result:'',total_score:0};
-  var dims=[{key:'value',label:'实际价值',desc:'痛点真实？方案闭环？'},{key:'feasibility',label:'落地可行性',desc:'能否落地？有MVP？'},{key:'ai_depth',label:'AI融合深度',desc:'Claude深度融合？'},{key:'demo',label:'演示效果',desc:'展示完整？交互流畅？'},{key:'innovation',label:'创新性',desc:'思路新颖？有突破？'}];
-
+  var js=judgeCache[currentScoreId]||{value:0,feasibility:0,ai_depth:0,demo:0,innovation:0,comment:'',result:'',total_score:0};
+  var dims=[
+    {key:'value',label:'实际价值',desc:'痛点真实？方案闭环？'},
+    {key:'feasibility',label:'落地可行性',desc:'能否落地？有MVP？'},
+    {key:'ai_depth',label:'AI融合深度',desc:'Claude深度融合？'},
+    {key:'demo',label:'演示效果',desc:'展示完整？交互流畅？'},
+    {key:'innovation',label:'创新性',desc:'思路新颖？有突破？'}
+  ];
   var h='<div class="score-dims">';
   dims.forEach(function(dim){
     var val=js[dim.key]||0;
     h+='<div class="score-dim"><label>'+dim.label+'</label><div class="desc">'+dim.desc+'</div><div class="score-circles">';
-    for(var s=1;s<=5;s++){
-      h+='<div class="score-circle'+(s<=val?' active':'')+'" onclick="clickScore(\''+dim.key+'\','+s+')">'+s+'</div>';
-    }
+    for(var s=1;s<=5;s++){h+='<div class="score-circle'+(s<=val?' active':'')+'" onclick="clickScore(\''+dim.key+'\','+s+')">'+s+'</div>'}
     h+='</div></div>';
   });
   h+='</div>';
@@ -1010,23 +728,12 @@ function renderScorePanel(){
   updateScorePanelHeader();
 }
 
-function clickScore(dim,val){
-  var id=currentScoreId;if(!id)return;
-  if(!judgeCache[id])initCache(id);
-  judgeCache[id][dim]=val;
-  renderScorePanel();
-}
-
-function clickResult(result){
-  var id=currentScoreId;if(!id)return;
-  if(!judgeCache[id])initCache(id);
-  judgeCache[id].result=result;
-  renderScorePanel();
-}
+function clickScore(dim,val){if(!judgeCache[currentScoreId])initScorePanel(currentScoreId);judgeCache[currentScoreId][dim]=val;renderScorePanel()}
+function clickResult(result){if(!judgeCache[currentScoreId])initScorePanel(currentScoreId);judgeCache[currentScoreId].result=result;renderScorePanel()}
 
 function saveJudge(){
   var id=currentScoreId;if(!id)return;
-  if(!judgeCache[id])initCache(id);
+  if(!judgeCache[id])initScorePanel(id);
   var dims=['value','feasibility','ai_depth','demo','innovation'];
   var total=0;dims.forEach(function(d){total+=(judgeCache[id][d]||0)});
   judgeCache[id].total_score=total;
@@ -1035,30 +742,27 @@ function saveJudge(){
   if(total===0){toast('请至少给一个维度打分','er');return}
   if(!judgeCache[id].result){toast('请选择评审结论','er');return}
 
-  fetch('/api/judge/'+id,{method:'POST',headers:apiHeaders(),body:JSON.stringify(judgeCache[id])})
-  .then(function(r){return r.json()}).then(function(d){
-    if(d.error){toast(d.error,'er');return}
-    toast('✅ 评分已保存','ok');
-    document.getElementById('score-panel').classList.remove('open');
-    loadRv();viewDetail(id);
-  }).catch(function(){toast('保存失败','er')});
+  var subs=getSubmissions();var idx=subs.findIndex(function(s){return s.id===id});if(idx<0)return;
+  subs[idx].judge_score=JSON.parse(JSON.stringify(judgeCache[id]));saveSubmissions(subs);
+  toast('✅ 评分已保存','ok');
+  document.getElementById('score-panel').classList.remove('open');
+  viewDetail(id);
 }
 
 function clearJudge(){
-  var id=currentScoreId;if(!id)return;
-  judgeCache[id]={value:0,feasibility:0,ai_depth:0,demo:0,innovation:0,comment:'',result:'',total_score:0};
+  judgeCache[currentScoreId]={value:0,feasibility:0,ai_depth:0,demo:0,innovation:0,comment:'',result:'',total_score:0};
   renderScorePanel();
 }
 
 // ========== 上传作品 ==========
-function handleFiles(files){for(var i=0;i<files.length;i++)selectedFiles.push(files[i]);renderFileList()}
-function handleDrop(e){handleFiles(e.dataTransfer.files)}
-function removeFile(idx){selectedFiles.splice(idx,1);renderFileList()}
-function renderFileList(){
-  var h='';selectedFiles.forEach(function(f,i){
-    var size=f.size<1024?f.size+'B':f.size<1048576?(f.size/1024).toFixed(1)+'KB':(f.size/1048576).toFixed(1)+'MB';
-    h+='<div class="file-item"><div class="fn">📄 '+f.name+' <span class="fs">('+size+')</span></div><div class="fd" onclick="removeFile('+i+')">✕</div></div>';
-  });document.getElementById('file-list').innerHTML=h;
+function onHtmlFile(input){
+  if(input.files&&input.files[0]){
+    var file=input.files[0];
+    document.getElementById('html-file-name').textContent='✅ '+file.name;
+    var reader=new FileReader();
+    reader.onload=function(e){htmlFileContent=e.target.result};
+    reader.readAsText(file);
+  }
 }
 
 function submitWork(){
@@ -1067,268 +771,292 @@ function submitWork(){
   var direction=document.getElementById('f-direction').value;
   var intro=document.getElementById('f-intro').value.trim();
   var pain=document.getElementById('f-pain').value.trim();
+  var workUrl=document.getElementById('f-url').value.trim();
   var materials=document.getElementById('f-materials').value.trim();
+
   if(!name){toast('请填写作品名称','er');return}
   if(!erp){toast('请填写参赛者ERP','er');return}
   if(!direction){toast('请选择参赛方向','er');return}
-  var fd=new FormData();
-  fd.append('name',name);fd.append('erp',erp);fd.append('direction',direction);fd.append('intro',intro);fd.append('pain',pain);fd.append('materials',materials);
-  selectedFiles.forEach(function(f){fd.append('files',f)});
-  var btn=document.getElementById('btn-submit-work');btn.disabled=true;btn.textContent='⏳ 提交中...';
-  fetch('/api/admin/submit',{method:'POST',headers:{'Authorization':'Bearer '+authToken},body:fd})
-  .then(function(r){return r.json()}).then(function(d){
-    btn.disabled=false;btn.textContent='✅ 提交作品';
-    if(d.error){toast(d.error,'er');return}
-    toast('✅ 作品已上传，AI评审已启动','ok');clearForm();loadAll();
-  }).catch(function(){btn.disabled=false;btn.textContent='✅ 提交作品';toast('上传失败','er')});
+  if(!intro){toast('请填写作品介绍','er');return}
+
+  var id='sub_'+Math.random().toString(36).substr(2,12);
+  var sub={
+    id:id,name:name,erp:erp,direction:direction,
+    intro:intro,pain:pain,materials:materials,
+    workUrl:workUrl,workHtml:htmlFileContent||'',
+    submitted_at:new Date().toLocaleString('zh-CN',{hour12:false}).replace(/\//g,'-'),
+    status:'evaluating',evaluation:null,judge_score:null
+  };
+
+  var subs=getSubmissions();subs.push(sub);saveSubmissions(subs);
+  toast('✅ 作品已提交，AI评审启动中...','info');
+  clearForm();
+
+  // 模拟AI评审
+  setTimeout(function(){
+    subs=getSubmissions();var idx=subs.findIndex(function(s){return s.id===id});if(idx<0)return;
+    subs[idx]=generateAIEval(subs[idx]);saveSubmissions(subs);
+    toast('✅ 「'+name+'」AI评审完成','ok');
+    renderReviewList();
+  },3000);
+
+  renderReviewList();
 }
-function clearForm(){document.getElementById('f-name').value='';document.getElementById('f-erp').value='';document.getElementById('f-direction').value='';document.getElementById('f-intro').value='';document.getElementById('f-pain').value='';document.getElementById('f-materials').value='';selectedFiles=[];renderFileList()}
+
+function clearForm(){
+  document.getElementById('f-name').value='';document.getElementById('f-erp').value='';
+  document.getElementById('f-direction').value='';document.getElementById('f-intro').value='';
+  document.getElementById('f-pain').value='';document.getElementById('f-url').value='';
+  document.getElementById('f-materials').value='';htmlFileContent='';
+  document.getElementById('html-file-name').textContent='';
+  document.getElementById('f-html').value='';
+}
 
 // ========== 分配项目 ==========
-function renderAssignStats(){
-  var total=subsData.length,assigned=0,unassigned=0,judged=0;
-  subsData.forEach(function(s){if(s.has_judge)judged++;else if(s.assigned_to&&s.assigned_to.length>0)assigned++;else unassigned++});
-  var h='';
-  h+='<div class="stat-item"><div class="num" style="color:var(--pri)">'+total+'</div><div class="lab">作品总数</div></div>';
-  h+='<div class="stat-item"><div class="num" style="color:var(--err)">'+unassigned+'</div><div class="lab">未分配</div></div>';
-  h+='<div class="stat-item"><div class="num" style="color:var(--ok)">'+assigned+'</div><div class="lab">已分配</div></div>';
-  h+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+judged+'</div><div class="lab">已评审</div></div>';
-  document.getElementById('assign-stats').innerHTML=h;
+function renderAssignTab(){
+  var subs=getSubmissions();var users=getUsers();
+  var reviewers=users.filter(function(u){return u.role==='reviewer'});
+  var total=subs.length;
+  var assigned=subs.filter(function(s){
+    return reviewers.some(function(r){return r.assigned&&r.assigned.indexOf(s.id)>=0});
+  }).length;
+  var judged=subs.filter(function(s){return s.judge_score&&s.judge_score.total_score>0}).length;
+
+  var sh='<div class="stat-item"><div class="num" style="color:var(--pri)">'+total+'</div><div class="lab">作品总数</div></div>';
+  sh+='<div class="stat-item"><div class="num" style="color:var(--err)">'+(total-assigned)+'</div><div class="lab">未分配</div></div>';
+  sh+='<div class="stat-item"><div class="num" style="color:var(--ok)">'+assigned+'</div><div class="lab">已分配</div></div>';
+  sh+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+judged+'</div><div class="lab">已评审</div></div>';
+  document.getElementById('assign-stats').innerHTML=sh;
+
+  var h='<div class="filter-bar">';
+  h+='<input class="search" id="assign-search" placeholder="🔍 搜索作品名称或ERP..." oninput="renderAssignTable()">';
+  h+='<button class="filter-chip active" onclick="setFilter(\'all\',this)">全部</button>';
+  h+='<button class="filter-chip" onclick="setFilter(\'unassigned\',this)">未分配</button>';
+  h+='<button class="filter-chip" onclick="setFilter(\'assigned\',this)">已分配</button>';
+  h+='</div>';
+  h+='<div class="btns" style="margin-bottom:12px"><button class="btn bok bsm" onclick="autoAssign()">⚖️ 自动均分</button></div>';
+  h+='<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>作品名称</th><th>ERP</th><th>方向</th><th>AI评审</th><th>分配给</th><th>操作</th></tr></thead><tbody id="assign-tbody"></tbody></table></div>';
+  document.getElementById('assign-card').innerHTML=h;
+  renderAssignTable();
 }
 
-function setFilter(f,el){currentFilter=f;document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});el.classList.add('active');renderAssignTable()}
+function setFilter(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
+  el.classList.add('active');renderAssignTable();
+}
 
 function renderAssignTable(){
+  var subs=getSubmissions();var users=getUsers();
+  var reviewers=users.filter(function(u){return u.role==='reviewer'});
   var search=(document.getElementById('assign-search')||{}).value||'';search=search.toLowerCase();
   var dirMap={'1':'方向1','2':'方向2','3':'方向3'};
-  var filtered=subsData.filter(function(s){
+
+  var filtered=subs.filter(function(s){
     if(search&&s.name.toLowerCase().indexOf(search)<0&&s.erp.toLowerCase().indexOf(search)<0)return false;
-    if(currentFilter==='unassigned')return !s.assigned_to||s.assigned_to.length===0;
-    if(currentFilter==='assigned')return s.assigned_to&&s.assigned_to.length>0&&!s.has_judge;
-    if(currentFilter==='judged')return s.has_judge;return true;
+    var assigned=reviewers.some(function(r){return r.assigned&&r.assigned.indexOf(s.id)>=0});
+    if(currentFilter==='unassigned')return !assigned;
+    if(currentFilter==='assigned')return assigned;
+    return true;
   });
-  document.getElementById('assign-count').textContent='显示 '+filtered.length+' / '+subsData.length+' 件';
-  if(!filtered.length){document.getElementById('assign-tbody').innerHTML='';document.getElementById('assign-empty').style.display='block';return}
-  document.getElementById('assign-empty').style.display='none';
-  var h='';filtered.forEach(function(s){
-    var checked=selectedSubIds.has(s.id)?'checked':'';
-    var rec=s.recommendation;var stCls='st-pending',stText='待评审';
+
+  var h='';
+  filtered.forEach(function(s){
+    var rec=s.evaluation?s.evaluation.recommendation:'';
+    if(rec==='eliminate')rec='pending';
+    var stCls='st-pending',stText='待评审';
     if(s.status==='evaluating'){stCls='st-evaluating';stText='评审中'}
-    else if(s.status==='failed'){stCls='st-failed';stText='失败'}
     else if(rec==='advance'){stCls='st-advance';stText='晋级'}
     else if(rec==='pending'){stCls='st-pending2';stText='待议'}
-    else if(rec==='eliminate'){stCls='st-eliminate';stText='淘汰'}
     else if(s.status==='done'){stCls='st-done';stText='已完成'}
-    h+='<tr><td><input type="checkbox" data-id="'+s.id+'" '+(checked?'checked':'')+' onchange="toggleSubSelect(\''+s.id+'\',this.checked)"></td>';
-    h+='<td style="font-weight:500;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+s.name+'">'+s.name+'</td>';
-    h+='<td>'+s.erp+'</td><td>'+(dirMap[s.direction]||s.direction||'-')+'</td>';
-    h+='<td><span class="sli-status '+stCls+'">'+stText+'</span>'+(s.total_score?' <span style="font-size:12px;color:var(--txt2)">'+s.total_score+'分</span>':'')+'</td>';
-    h+='<td>';if(s.assigned_to&&s.assigned_to.length>0){s.assigned_to.forEach(function(n){h+='<span class="assign-tag reviewer">'+n+'</span> '})}else{h+='<span class="assign-tag none">未分配</span>'}h+='</td>';
+
+    var assignedNames=[];
+    reviewers.forEach(function(r){if(r.assigned&&r.assigned.indexOf(s.id)>=0)assignedNames.push(r.display_name)});
+    var assignHtml=assignedNames.length?assignedNames.map(function(n){return'<span class="assign-tag reviewer">'+n+'</span>'}).join(' '):'<span class="assign-tag none">未分配</span>';
+
+    h+='<tr><td style="font-weight:500">'+s.name+'</td><td>'+s.erp+'</td><td>'+(dirMap[s.direction]||'')+'</td>';
+    h+='<td><span class="sli-status '+stCls+'">'+stText+'</span>'+(s.evaluation?' <span style="font-size:12px;color:var(--txt2)">'+s.evaluation.total_score+'分</span>':'')+'</td>';
+    h+='<td>'+assignHtml+'</td>';
     h+='<td><button class="btn bo bxs" onclick="openSingleAssign(\''+s.id+'\')">分配</button></td></tr>';
-  });document.getElementById('assign-tbody').innerHTML=h;
-}
-
-function toggleSubSelect(id,checked){if(checked)selectedSubIds.add(id);else selectedSubIds.delete(id)}
-function toggleAllAssign(checked){document.querySelectorAll('#assign-tbody input[type=checkbox]').forEach(function(cb){cb.checked=checked;var id=cb.getAttribute('data-id');if(checked)selectedSubIds.add(id);else selectedSubIds.delete(id)})}
-
-function openSingleAssign(subId){
-  singleAssignSubId=subId;var sub=subsData.find(function(s){return s.id===subId});
-  document.getElementById('single-assign-title').textContent='📋 分配评审人 — '+(sub?sub.name:'');
-  var reviewers=usersData.filter(function(u){return u.role==='reviewer'});var h='';
-  if(!reviewers.length){h='<div style="text-align:center;padding:20px;color:var(--txt2)">暂无评审人</div>'}
-  else{reviewers.forEach(function(r){var assigned=r.assigned||[];var isChecked=assigned.indexOf(subId)>=0;
-    h+='<div class="assign-item '+(isChecked?'checked':'')+'" onclick="toggleSingleAssignReviewer(this)" style="padding:10px;margin-bottom:4px">';
-    h+='<input type="checkbox" '+(isChecked?'checked':'')+'><span style="font-weight:500">'+r.display_name+'</span>';
-    h+='<span style="color:var(--txt2);font-size:12px;margin-left:auto">当前 '+assigned.length+' 件</span></div>';
-  })}document.getElementById('single-assign-reviewers').innerHTML=h;
-  document.getElementById('single-assign-modal').classList.add('show');
-}
-function toggleSingleAssignReviewer(el){var cb=el.querySelector('input[type=checkbox]');cb.checked=!cb.checked;el.classList.toggle('checked',cb.checked)}
-function closeSingleAssign(){document.getElementById('single-assign-modal').classList.remove('show')}
-function saveSingleAssign(){
-  var subId=singleAssignSubId;var checkboxes=document.querySelectorAll('#single-assign-reviewers input[type=checkbox]');
-  var reviewers=usersData.filter(function(u){return u.role==='reviewer'});var assignments=[];
-  checkboxes.forEach(function(cb,i){var r=reviewers[i];var assigned=r.assigned||[];
-    if(cb.checked){if(assigned.indexOf(subId)<0)assigned.push(subId)}else{assigned=assigned.filter(function(id){return id!==subId})}
-    assignments.push({username:r.username,assigned:assigned})});
-  fetch('/api/admin/batch-assign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({assignments:assignments})})
-  .then(function(r){return r.json()}).then(function(d){if(d.error){toast(d.error,'er');return}toast('分配已更新','ok');closeSingleAssign();loadAll()});
-}
-
-function batchAssignTo(){
-  if(!selectedSubIds.size){toast('请先勾选作品','er');return}
-  var reviewers=usersData.filter(function(u){return u.role==='reviewer'});
-  if(!reviewers.length){toast('请先添加评审人','er');return}
-  var sel=document.getElementById('batch-reviewer');sel.innerHTML='<option value="">请选择评审人</option>';
-  reviewers.forEach(function(r){sel.innerHTML+='<option value="'+r.username+'">'+r.display_name+' ('+r.username+')</option>'});
-  document.getElementById('batch-info').textContent='将 '+selectedSubIds.size+' 件作品分配给选中的评审人';
-  document.getElementById('batch-assign-modal').classList.add('show');
-}
-function closeBatchAssign(){document.getElementById('batch-assign-modal').classList.remove('show')}
-function doBatchAssign(){
-  var username=document.getElementById('batch-reviewer').value;if(!username){toast('请选择评审人','er');return}
-  var user=usersData.find(function(u){return u.username===username});var assigned=(user.assigned||[]).slice();
-  selectedSubIds.forEach(function(id){if(assigned.indexOf(id)<0)assigned.push(id)});
-  fetch('/api/admin/assign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username,assigned:assigned})})
-  .then(function(r){return r.json()}).then(function(d){if(d.error){toast(d.error,'er');return}toast('已分配 '+selectedSubIds.size+' 件给 '+user.display_name,'ok');selectedSubIds.clear();closeBatchAssign();loadAll()});
+  });
+  var tbody=document.getElementById('assign-tbody');if(tbody)tbody.innerHTML=h;
 }
 
 function autoAssign(){
-  var reviewers=usersData.filter(function(u){return u.role==='reviewer'});
+  var users=getUsers();var reviewers=users.filter(function(u){return u.role==='reviewer'});
   if(!reviewers.length){toast('请先添加评审人','er');return}
-  if(!subsData.length){toast('暂无作品','er');return}
-  if(!confirm('将所有作品平均分配给 '+reviewers.length+' 位评审人，现有分配将被覆盖，确认？'))return;
-  fetch('/api/admin/auto-assign',{method:'POST',headers:{'Content-Type':'application/json'}})
-  .then(function(r){return r.json()}).then(function(d){if(d.error){toast(d.error,'er');return}toast('已自动均分：'+d.reviewers+'人 x ~'+d.per_reviewer+'件','ok');loadAll()});
+  var subs=getSubmissions();
+  if(!subs.length){toast('暂无作品','er');return}
+  // 清除旧分配
+  reviewers.forEach(function(r){r.assigned=[]});
+  // 均分
+  subs.forEach(function(s,i){reviewers[i%reviewers.length].assigned.push(s.id)});
+  saveUsers(users);renderAssignTable();renderOverview();
+  toast('已自动均分：'+reviewers.length+'人 x ~'+Math.ceil(subs.length/reviewers.length)+'件','ok');
+}
+
+function openSingleAssign(subId){
+  singleAssignSubId=subId;
+  var users=getUsers();var reviewers=users.filter(function(u){return u.role==='reviewer'});
+  var sub=findSub(subId);
+  document.getElementById('single-assign-title').textContent='📋 分配评审人 — '+(sub?sub.name:'');
+  var h='';
+  if(!reviewers.length){h='<div style="text-align:center;padding:20px;color:var(--txt2)">暂无评审人，请先添加</div>'}
+  else{
+    reviewers.forEach(function(r){
+      var isChecked=r.assigned&&r.assigned.indexOf(subId)>=0;
+      h+='<div class="assign-item '+(isChecked?'checked':'')+'" onclick="toggleSAItem(this)" style="padding:10px;margin-bottom:4px">';
+      h+='<input type="checkbox" '+(isChecked?'checked':'')+' data-username="'+r.username+'"><span style="font-weight:500">'+r.display_name+'</span>';
+      h+='<span style="color:var(--txt2);font-size:12px;margin-left:auto">当前 '+(r.assigned?r.assigned.length:0)+' 件</span></div>';
+    });
+  }
+  document.getElementById('single-assign-reviewers').innerHTML=h;
+  document.getElementById('single-assign-modal').classList.add('show');
+}
+
+function toggleSAItem(el){var cb=el.querySelector('input[type=checkbox]');cb.checked=!cb.checked;el.classList.toggle('checked',cb.checked)}
+
+function saveSingleAssign(){
+  var subId=singleAssignSubId;var users=getUsers();var reviewers=users.filter(function(u){return u.role==='reviewer'});
+  var checkboxes=document.querySelectorAll('#single-assign-reviewers input[type=checkbox]');
+  checkboxes.forEach(function(cb){
+    var u=users.find(function(x){return x.username===cb.getAttribute('data-username')});
+    if(!u)return;if(!u.assigned)u.assigned=[];
+    if(cb.checked){if(u.assigned.indexOf(subId)<0)u.assigned.push(subId)}
+    else{u.assigned=u.assigned.filter(function(id){return id!==subId})}
+  });
+  saveUsers(users);closeModal('single-assign-modal');renderAssignTab();renderOverview();
+  toast('分配已更新','ok');
 }
 
 // ========== 评审人管理 ==========
-function renderUsers(){
-  var judges=usersData.filter(function(u){return u.role==='reviewer'});
-  document.getElementById('judge-count').textContent='('+judges.length+'人)';
-  var h='';if(!judges.length){h='<div style="text-align:center;padding:30px;color:var(--txt2)">暂无评审人，点击上方添加</div>'}
-  else{judges.forEach(function(u){
-    var assigned=u.assigned||[];var judged=0;
-    assigned.forEach(function(sid){var sub=subsData.find(function(s){return s.id===sid});if(sub&&sub.has_judge)judged++});
-    h+='<div class="judge-card"><div class="judge-info"><div class="judge-name">'+u.display_name+' <span style="font-weight:400;color:var(--txt2);font-size:12px">('+u.username+')</span></div>';
-    h+='<div class="judge-meta">已分配 '+assigned.length+' 件 · 已评审 '+judged+' 件</div></div>';
-    h+='<div class="btns"><button class="btn bo bsm" onclick="openAssign(\''+u.username+'\')">📋 分配</button>';
-    h+='<button class="btn bg bsm" onclick="resetPwd(\''+u.username+'\')">🔑 改密</button>';
-    h+='<button class="btn be bsm" onclick="delUser(\''+u.username+'\')">🗑️</button></div></div>';
-  })}document.getElementById('judge-list').innerHTML=h;
+function renderJudgesTab(){
+  var users=getUsers();var reviewers=users.filter(function(u){return u.role==='reviewer'});
+  var subs=getSubmissions();
+  var h='<div class="ct">👥 评审人管理 <span class="badge-count">('+reviewers.length+'人)</span></div>';
+  h+='<div class="btns" style="margin-bottom:12px"><button class="btn bp bsm" onclick="document.getElementById(\'add-user-modal\').classList.add(\'show\')">➕ 添加评审人</button></div>';
+  if(!reviewers.length){h+='<div style="text-align:center;padding:30px;color:var(--txt2)">暂无评审人</div>'}
+  else{
+    reviewers.forEach(function(u){
+      var assigned=u.assigned||[];
+      var judged=0;assigned.forEach(function(sid){var s=subs.find(function(x){return x.id===sid});if(s&&s.judge_score&&s.judge_score.total_score>0)judged++});
+      h+='<div class="judge-card"><div class="judge-info"><div class="judge-name">'+u.display_name+' <span style="font-weight:400;color:var(--txt2);font-size:12px">('+u.username+')</span></div>';
+      h+='<div class="judge-meta">已分配 '+assigned.length+' 件 · 已评审 '+judged+' 件 · 密码: '+u.password+'</div></div>';
+      h+='<div class="btns"><button class="btn bo bsm" onclick="openAssignModal(\''+u.username+'\')">📋 分配</button>';
+      h+='<button class="btn be bsm" onclick="delUser(\''+u.username+'\')">🗑️</button></div></div>';
+    });
+  }
+  document.getElementById('judges-card').innerHTML=h;
 }
 
-function showAddUser(){document.getElementById('add-user-modal').classList.add('show');document.getElementById('add-user-result').style.display='none';document.getElementById('new-user').value='';document.getElementById('new-name').value=''}
-function closeAddUser(){document.getElementById('add-user-modal').classList.remove('show')}
 function addUser(){
-  var u=document.getElementById('new-user').value.trim();var n=document.getElementById('new-name').value.trim();
+  var u=document.getElementById('new-user').value.trim();
+  var n=document.getElementById('new-name').value.trim();
   if(!u){toast('请填写ERP账号','er');return}
   if(!n){toast('请填写姓名','er');return}
-  var btn=document.getElementById('btn-add-user');btn.disabled=true;btn.textContent='⏳ 添加中...';
-  fetch('/api/admin/add-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,display_name:n})})
-  .then(function(r){return r.json()}).then(function(d){
-    btn.disabled=false;btn.textContent='✅ 添加';
-    if(d.error){toast(d.error,'er');return}
-    var rd=document.getElementById('add-user-result');rd.style.display='block';
-    rd.innerHTML='✅ 添加成功！<br>账号：<b>'+d.username+'</b> &nbsp; 密码：<b>'+d.password+'</b><br>姓名：'+d.display_name;
-    document.getElementById('new-user').value='';document.getElementById('new-name').value='';
-    toast('评审人已添加','ok');loadUsers();
-  }).catch(function(){btn.disabled=false;btn.textContent='✅ 添加';toast('添加失败','er')});
+  var users=getUsers();
+  if(users.find(function(x){return x.username===u})){toast('账号已存在','er');return}
+  users.push({username:u,password:u+'666',display_name:n,role:'reviewer',assigned:[]});
+  saveUsers(users);closeModal('add-user-modal');renderJudgesTab();renderAssignTab();renderOverview();
+  toast('✅ 评审人已添加：'+n+'（密码：'+u+'666）','ok');
+  document.getElementById('new-user').value='';document.getElementById('new-name').value='';
 }
 
-var serverLanIp='';
-function loadServerInfo(){
-  fetch('/api/server-info').then(function(r){return r.json()}).then(function(d){
-    if(d.lan_ip)serverLanIp=d.lan_ip;
-  }).catch(function(){});
+function delUser(username){
+  if(!confirm('确认删除评审人？'))return;
+  var users=getUsers();users=users.filter(function(u){return u.username!==username});
+  saveUsers(users);renderJudgesTab();renderAssignTab();renderOverview();
+  toast('已删除','ok');
 }
-function copyShareUrl(){
-  var host=serverLanIp?serverLanIp+':8765':window.location.host;
-  var url='http://'+host+'/';
-  navigator.clipboard.writeText(url).then(function(){toast('🔗 链接已复制：'+url,'ok')}).catch(function(){
-    var inp=document.createElement('input');inp.value=url;document.body.appendChild(inp);inp.select();document.execCommand('copy');document.body.removeChild(inp);
-    toast('🔗 链接已复制：'+url,'ok');
+
+function openAssignModal(username){
+  assignUser=username;var users=getUsers();var user=users.find(function(u){return u.username===username});
+  if(!user)return;var assigned=user.assigned||[];
+  var subs=getSubmissions();var dirMap={'1':'方向1','2':'方向2','3':'方向3'};
+  document.getElementById('assign-modal-title').textContent='📋 分配作品 — '+user.display_name;
+  var h='';
+  subs.forEach(function(s){
+    var checked=assigned.indexOf(s.id)>=0;
+    h+='<div class="assign-item '+(checked?'checked':'')+'" onclick="toggleAssignItem(this)">';
+    h+='<input type="checkbox" '+(checked?'checked':'')+' data-subid="'+s.id+'">';
+    h+='<span>'+s.name+'</span><span style="color:var(--txt2);margin-left:auto;font-size:12px">'+(dirMap[s.direction]||'')+' · ERP:'+s.erp+'</span></div>';
   });
+  document.getElementById('assign-modal-list').innerHTML=h;
+  document.getElementById('assign-modal').classList.add('show');
 }
-function delUser(username){if(!confirm('确认删除评审人 '+username+'？'))return;fetch('/api/admin/del-user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username})}).then(function(r){return r.json()}).then(function(d){if(d.error){toast(d.error,'er');return}toast('已删除','ok');loadUsers()})}
-function resetPwd(username){var p=prompt('请输入新密码：');if(!p)return;fetch('/api/admin/reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username,password:p})}).then(function(r){return r.json()}).then(function(d){if(d.error){toast(d.error,'er');return}toast('密码已重置','ok')})}
 
-function openAssign(username){
-  assignUser=username;var user=usersData.find(function(u){return u.username===username});var assigned=user?user.assigned||[]:[];
-  document.getElementById('assign-title').textContent='📋 分配项目 — '+user.display_name+' ('+username+')';
-  var h='';subsData.forEach(function(s){var checked=assigned.indexOf(s.id)>=0;var dirMap={'1':'方向1','2':'方向2','3':'方向3'};
-    h+='<div class="assign-item '+(checked?'checked':'')+'" onclick="toggleAssign(this)">';
-    h+='<input type="checkbox" '+(checked?'checked':'')+' onclick="event.stopPropagation();toggleAssign(this.parentElement)">';
-    h+='<span>'+s.name+'</span><span style="color:var(--txt2);margin-left:auto;font-size:12px">'+(dirMap[s.direction]||'')+' · ERP:'+s.erp+(s.has_judge?' · ✅已评':'')+'</span></div>';
-  });document.getElementById('assign-list').innerHTML=h;document.getElementById('assign-modal').classList.add('show');
-}
-function closeAssign(){document.getElementById('assign-modal').classList.remove('show')}
-function toggleAssign(el){var cb=el.querySelector('input[type=checkbox]');cb.checked=!cb.checked;el.classList.toggle('checked',cb.checked)}
-function assignSelectAll(){document.querySelectorAll('#assign-list input[type=checkbox]').forEach(function(cb){cb.checked=true;cb.parentElement.classList.add('checked')})}
-function assignSelectNone(){document.querySelectorAll('#assign-list input[type=checkbox]').forEach(function(cb){cb.checked=false;cb.parentElement.classList.remove('checked')})}
+function toggleAssignItem(el){var cb=el.querySelector('input[type=checkbox]');cb.checked=!cb.checked;el.classList.toggle('checked',cb.checked)}
+function assignSelectAll(){document.querySelectorAll('#assign-modal-list input[type=checkbox]').forEach(function(cb){cb.checked=true;cb.parentElement.classList.add('checked')})}
+function assignSelectNone(){document.querySelectorAll('#assign-modal-list input[type=checkbox]').forEach(function(cb){cb.checked=false;cb.parentElement.classList.remove('checked')})}
+
 function saveAssign(){
-  var assigned=[];document.querySelectorAll('#assign-list .assign-item').forEach(function(el){
-    var cb=el.querySelector('input[type=checkbox]');if(cb.checked){var nameEl=el.querySelector('span');var name=nameEl?nameEl.textContent:'';var sub=subsData.find(function(s){return s.name===name});if(sub)assigned.push(sub.id)}
+  var users=getUsers();var user=users.find(function(u){return u.username===assignUser});if(!user)return;
+  var assigned=[];
+  document.querySelectorAll('#assign-modal-list input[type=checkbox]').forEach(function(cb){
+    if(cb.checked)assigned.push(cb.getAttribute('data-subid'));
   });
-  fetch('/api/admin/assign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:assignUser,assigned:assigned})})
-  .then(function(r){return r.json()}).then(function(d){if(d.error){toast(d.error,'er');return}toast('已分配 '+assigned.length+' 件','ok');closeAssign();loadAll()});
-}
-
-// ========== 导入 ==========
-function showImportModal(){importExcelFile=null;document.getElementById('imp-excel-label').textContent='点击选择Excel文件';document.getElementById('imp-excel-zone').style.borderColor='var(--bd)';document.getElementById('imp-dir').value='';document.getElementById('imp-dir-preview').style.display='none';document.getElementById('imp-result').style.display='none';document.getElementById('import-modal').classList.add('show')}
-function closeImportModal(){document.getElementById('import-modal').classList.remove('show')}
-function onExcelSel(input){if(input.files&&input.files[0]){importExcelFile=input.files[0];document.getElementById('imp-excel-label').textContent=importExcelFile.name;document.getElementById('imp-excel-zone').style.borderColor='var(--ok)'}}
-
-document.getElementById('imp-dir').addEventListener('change',function(){
-  var dir=this.value.trim();var pv=document.getElementById('imp-dir-preview');
-  if(!dir){pv.style.display='none';return}
-  fetch('/api/scan-dir',{method:'POST',headers:apiHeaders(),body:JSON.stringify({dir:dir})})
-  .then(function(r){return r.json()}).then(function(d){
-    if(d.error){pv.style.display='block';document.getElementById('imp-dir-content').innerHTML='<span style="color:var(--err)">❌ '+d.error+'</span>';return}
-    var h='';if(d.files&&d.files.length){h+='<div style="font-weight:600;margin-bottom:4px">📄 根目录文件 ('+d.files.length+'个)</div>';d.files.slice(0,20).forEach(function(f){var sz=f.size<1024?f.size+'B':f.size<1048576?(f.size/1024).toFixed(1)+'KB':(f.size/1048576).toFixed(1)+'MB';h+='<div>· '+f.name+' <span style="color:var(--txt2)">'+sz+'</span></div>'});if(d.files.length>20)h+='<div style="color:var(--txt2)">...等'+d.files.length+'个文件</div>'}
-    if(d.subdirs&&d.subdirs.length){h+='<div style="font-weight:600;margin:8px 0 4px">📁 子文件夹 ('+d.subdirs.length+'个)</div>';d.subdirs.slice(0,20).forEach(function(s){h+='<div>· '+s.name+'/ ('+s.count+'个文件)</div>'});if(d.subdirs.length>20)h+='<div style="color:var(--txt2)">...等'+d.subdirs.length+'个</div>'}
-    if(!d.files.length&&!d.subdirs.length)h='<span style="color:var(--acc)">⚠️ 目录为空</span>';
-    pv.style.display='block';document.getElementById('imp-dir-content').innerHTML=h;
-  }).catch(function(){pv.style.display='none'});
-});
-
-function doImport(){
-  if(!importExcelFile){toast('请先选择Excel文件','er');return}
-  var btn=document.getElementById('btn-import');btn.disabled=true;btn.textContent='⏳ 导入中...';
-  var fd=new FormData();fd.append('excel',importExcelFile);var dir=document.getElementById('imp-dir').value.trim();if(dir)fd.append('attach_dir',dir);
-  fetch('/api/import',{method:'POST',headers:{'Authorization':'Bearer '+authToken},body:fd})
-  .then(function(r){return r.json()}).then(function(d){
-    var rd=document.getElementById('imp-result');rd.style.display='block';
-    if(d.error){rd.innerHTML='<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--rs);padding:12px;color:var(--err)">❌ '+d.error+'</div>';return}
-    var h='<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--rs);padding:12px">';
-    h+='<div style="font-weight:600;color:var(--ok);margin-bottom:8px">✅ 导入完成</div>';
-    if(d.imported&&d.imported.length){h+='<div style="margin-bottom:6px">成功导入 <b>'+d.imported.length+'</b> 件作品：</div><div style="max-height:200px;overflow-y:auto">';var dirMap={'1':'方向1提效','2':'方向2难题','3':'方向3创新'};d.imported.forEach(function(it,i){h+='<div style="padding:4px 0;font-size:13px;border-bottom:1px solid var(--bd)">'+(i+1)+'. <b>'+it.name+'</b> · ERP: '+it.erp+' · '+(dirMap[it.direction]||'')+(it.attachments>0?' · 📎'+it.attachments:'')+'</div>'});h+='</div>'}
-    if(d.skipped&&d.skipped.length){h+='<div style="margin-top:8px;color:var(--acc)">跳过 '+d.skipped.length+' 条</div>'}
-    h+='</div>';rd.innerHTML=h;toast('成功导入'+(d.imported?d.imported.length:0)+'件','ok');loadAll();
-  }).catch(function(e){toast('导入失败','er')}).finally(function(){btn.disabled=false;btn.textContent='📥 开始导入'});
+  user.assigned=assigned;saveUsers(users);closeModal('assign-modal');renderAssignTab();renderJudgesTab();renderOverview();
+  toast('已分配 '+assigned.length+' 件','ok');
 }
 
 // ========== 总览 ==========
 function renderOverview(){
-  if(!subsData.length&&!usersData.length)return;
-  var total=subsData.length;var assignedIds=[];usersData.forEach(function(u){(u.assigned||[]).forEach(function(id){if(assignedIds.indexOf(id)<0)assignedIds.push(id)})});
-  var unassigned=subsData.filter(function(s){return assignedIds.indexOf(s.id)<0});var judged=subsData.filter(function(s){return s.has_judge}).length;
-  var advance=subsData.filter(function(s){return s.recommendation==='advance'}).length;var pending=subsData.filter(function(s){return s.recommendation==='pending'}).length;
-  var sh='';sh+='<div class="stat-item"><div class="num" style="color:var(--pri)">'+total+'</div><div class="lab">作品总数</div></div>';
+  var subs=getSubmissions();var users=getUsers();
+  var reviewers=users.filter(function(u){return u.role==='reviewer'});
+  var total=subs.length;
+  var allAssignedIds=[];reviewers.forEach(function(r){(r.assigned||[]).forEach(function(id){if(allAssignedIds.indexOf(id)<0)allAssignedIds.push(id)})});
+  var unassigned=subs.filter(function(s){return allAssignedIds.indexOf(s.id)<0});
+  var judged=subs.filter(function(s){return s.judge_score&&s.judge_score.total_score>0}).length;
+  var advance=subs.filter(function(s){return s.evaluation&&s.evaluation.recommendation==='advance'}).length;
+  var pending=subs.filter(function(s){return s.evaluation&&s.evaluation.recommendation==='pending'}).length;
+
+  var sh='<div class="stat-item"><div class="num" style="color:var(--pri)">'+total+'</div><div class="lab">作品总数</div></div>';
   sh+='<div class="stat-item"><div class="num" style="color:var(--err)">'+unassigned.length+'</div><div class="lab">未分配</div></div>';
   sh+='<div class="stat-item"><div class="num" style="color:var(--ok)">'+advance+'</div><div class="lab">推荐晋级</div></div>';
   sh+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+pending+'</div><div class="lab">建议待议</div></div>';
-  sh+='<div class="stat-item"><div class="num" style="color:var(--txt2)">'+judged+'</div><div class="lab">已评审</div></div>';
+  sh+='<div class="stat-item"><div class="num" style="color:var(--txt2)">'+judged+'</div><div class="lab">评委已评</div></div>';
   document.getElementById('overview-stats').innerHTML=sh;
-  var uh='';if(unassigned.length){uh+='<div style="max-height:240px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rs);padding:4px">';unassigned.forEach(function(s){uh+='<div style="padding:6px 10px;font-size:13px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center"><span>· '+s.name+'</span><span style="color:var(--txt2);font-size:12px">ERP:'+s.erp+'</span></div>'});uh+='</div>'}else{uh='<div style="text-align:center;padding:20px;color:var(--txt2)">✅ 所有作品已分配</div>'}
-  document.getElementById('unassigned-list').innerHTML=uh;
-  var reviewers=usersData.filter(function(u){return u.role==='reviewer'});var rh='';
+
+  // 未分配列表
+  var uh='';
+  if(unassigned.length){
+    uh+='<div style="max-height:240px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rs);padding:4px">';
+    unassigned.forEach(function(s){uh+='<div style="padding:6px 10px;font-size:13px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between"><span>· '+s.name+'</span><span style="color:var(--txt2);font-size:12px">ERP:'+s.erp+'</span></div>'});
+    uh+='</div>';
+  }else{uh='<div style="text-align:center;padding:20px;color:var(--txt2)">✅ 所有作品已分配</div>'}
+  document.getElementById('overview-unassigned').innerHTML='<div class="ct">📋 未分配作品</div>'+uh;
+
+  // 评审人进度
+  var rh='';
   if(!reviewers.length){rh='<div style="text-align:center;padding:20px;color:var(--txt2)">暂无评审人</div>'}
-  else{reviewers.forEach(function(r){var assigned=r.assigned||[];var judgedCount=0;assigned.forEach(function(sid){var sub=subsData.find(function(s){return s.id===sid});if(sub&&sub.has_judge)judged++});
-    var pct=assigned.length?Math.round(judgedCount/assigned.length*100):0;
-    rh+='<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)">';
-    rh+='<div style="min-width:100px;font-weight:500;font-size:14px">'+r.display_name+'</div>';
-    rh+='<div style="flex:1"><div style="height:8px;background:var(--bd);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--ok);border-radius:4px;transition:width .5s"></div></div></div>';
-    rh+='<div style="font-size:13px;color:var(--txt2);min-width:120px;text-align:right">'+judgedCount+'/'+assigned.length+' 已评审 ('+pct+'%)</div></div>';
-  })}document.getElementById('reviewer-overview').innerHTML=rh;
+  else{
+    reviewers.forEach(function(r){
+      var assigned=r.assigned||[];var judgedCount=0;
+      assigned.forEach(function(sid){var s=subs.find(function(x){return x.id===sid});if(s&&s.judge_score&&s.judge_score.total_score>0)judgedCount++});
+      var pct=assigned.length?Math.round(judgedCount/assigned.length*100):0;
+      rh+='<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)">';
+      rh+='<div style="min-width:100px;font-weight:500;font-size:14px">'+r.display_name+'</div>';
+      rh+='<div style="flex:1"><div style="height:8px;background:var(--bd);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--ok);border-radius:4px;transition:width .5s"></div></div></div>';
+      rh+='<div style="font-size:13px;color:var(--txt2);min-width:120px;text-align:right">'+judgedCount+'/'+assigned.length+' 已评审 ('+pct+'%)</div></div>';
+    });
+  }
+  document.getElementById('overview-reviewers').innerHTML='<div class="ct">📊 各评审人分配情况</div>'+rh;
 }
 
-// ========== 导出/清空 ==========
-function expCSV(){
-  if(!rvData.length){toast('无数据','er');return}
-  var h=['序号','作品','ERP','方向','AI-Claude验证','AI-完整性','AI-方向符合','AI价值','AI可行性','AI深度','AI总分','AI参考建议','AI理由','评委价值','评委可行性','评委AI深度','评委演示效果','评委创新性','评委总分','评委结论','评委评价'];
-  var rows=rvData.map(function(d,i){
-    var e=d.evaluation||{},th=e.threshold||{},q=e.quality||{},js=d.judge_score||{};
-    var aiRec=e.recommendation||'';if(aiRec==='eliminate')aiRec='pending';
-    return[i+1,d.submission?d.submission.name:'',d.submission?d.submission.erp:'','方向'+(d.submission?d.submission.direction:''),th.claude_usage&&th.claude_usage.pass?'通过':'不足',th.completeness&&th.completeness.pass?'通过':'不足',th.direction_fit&&th.direction_fit.pass?'通过':'不足',q.value?q.value.score:0,q.feasibility?q.feasibility.score:0,q.ai_depth?q.ai_depth.score:0,e.total_score||0,{advance:'推荐晋级',pending:'建议待议'}[aiRec]||'',e.core_reason||'',js.value||0,js.feasibility||0,js.ai_depth||0,js.demo||0,js.innovation||0,js.total_score||0,{advance:'晋级',pending:'待议',eliminate:'淘汰'}[js.result]||'',(js.comment||'').replace(/[\n\r]/g,' ')];
-  });
-  var csv='﻿'+[h].concat(rows).map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
-  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='评审汇总.csv';a.click();toast('已导出','ok');
+// ========== 工具函数 ==========
+function backToList(){
+  document.getElementById('rv-list').style.display='';
+  document.getElementById('rv-detail').style.display='none';
+  document.getElementById('stat-bar').style.display='';
+  document.getElementById('score-panel').classList.remove('open');
+  renderReviewList();
 }
-function clearAll(){if(!confirm('清空所有数据？'))return;fetch('/api/submissions',{method:'DELETE',headers:apiHeaders()}).then(function(){rvData=[];renderList();toast('已清空','ok')})}
 
-function toast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'info')+' show';clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('show')},2500)}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+
+function toast(m,t){
+  var e=document.getElementById('toast');e.textContent=m;e.className='toast '+(t||'info')+' show';
+  clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('show')},2500);
+}
 </script>
-
-
 </body></html>
