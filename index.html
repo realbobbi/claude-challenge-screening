@@ -425,7 +425,7 @@ function renderReviewList(){
   var judged=mySubs.filter(function(s){return s.judge_score&&s.judge_score.total_score>0}).length;
   var h='<div class="stat-item"><div class="num">'+total+'</div><div class="lab">作品总数</div></div>';
   h+='<div class="stat-item"><div class="num" style="color:var(--pri)">'+aiDone+'</div><div class="lab">AI已评审</div></div>';
-  h+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+judged+'</div><div class="lab">评委已评</div></div>';
+  h+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+judged+'</div><div class="lab">评委已评审</div></div>';
   h+='<div style="flex:1"></div>';
   document.getElementById('stat-bar').innerHTML=h;
 
@@ -435,7 +435,7 @@ function renderReviewList(){
   var dirMap={'1':'方向1提效','2':'方向2难题','3':'方向3创新'};
   h='<div class="card"><div class="ct">📋 作品列表（'+mySubs.length+'件）</div>';
   mySubs.forEach(function(s,i){
-    var stMap={pending:{t:'⏳ 待评审',c:'st-pending'},evaluating:{t:'🔄 评审中',c:'st-evaluating'},done:{t:'✅ 已评审',c:'st-done'},failed:{t:'❌ 失败',c:'st-failed'}};
+    var stMap={pending:{t:'⏳ 待评审',c:'st-pending'},evaluating:{t:'🔄 评审中',c:'st-evaluating'},done:{t:'✅ AI已评审',c:'st-done'},failed:{t:'❌ 失败',c:'st-failed'}};
     var st=stMap[s.status]||stMap.pending;
     var aiRec='';
     if(s.status==='done'&&s.evaluation){
@@ -1249,7 +1249,7 @@ function renderOverview(){
   sh+='<div class="stat-item"><div class="num" style="color:var(--err)">'+unassigned.length+'</div><div class="lab">未分配</div></div>';
   sh+='<div class="stat-item"><div class="num" style="color:var(--ok)">'+advance+'</div><div class="lab">推荐晋级</div></div>';
   sh+='<div class="stat-item"><div class="num" style="color:var(--acc)">'+pending+'</div><div class="lab">建议待议</div></div>';
-  sh+='<div class="stat-item"><div class="num" style="color:var(--txt2)">'+judged+'</div><div class="lab">评委已评</div></div>';
+  sh+='<div class="stat-item"><div class="num" style="color:var(--txt2)">'+judged+'</div><div class="lab">评委已评审</div></div>';
   document.getElementById('overview-stats').innerHTML=sh;
 
   // 未分配列表
