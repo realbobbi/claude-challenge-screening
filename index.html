@@ -430,7 +430,9 @@ function renderReviewList(){
       var jr=s.judge_score.result;
       var jrm={advance:'🟢晋级',pending:'🟡待议',eliminate:'🔴淘汰'};
       var jrc={advance:'st-advance',pending:'st-pending2',eliminate:'st-eliminate'};
-      var jName=s.judge_score.judge_name?'('+s.judge_score.judge_name+')':'';
+      var jName=s.judge_score.judge_name||'';
+      if(!jName){var _us=getUsers().filter(function(u){return u.role==='reviewer'&&u.assigned&&u.assigned.indexOf(s.id)>=0});if(_us.length)jName=_us.map(function(u){return u.display_name}).join('、')}
+      if(jName)jName='('+jName+')';
       jBadge=' <span class="sli-status '+jrc[jr]+'">👨‍⚖️'+jrm[jr]+jName+'</span>';
     }
     var workType=s.workUrl?'🌐网址版':s.workHtml?'📄HTML版':'📎附件';
@@ -491,17 +493,46 @@ function viewDetail(id){
   else if(s.status==='done'&&s.evaluation){h+=renderAIReport(s)}
   h+='</div>';
 
-  // ===== 评委评分入口 =====
-  if(currentUser.role==='reviewer'||currentUser.role==='admin'){
-    var js=s.judge_score||{};
-    var hasScore=js&&js.total_score>0;
+  // ===== 评委评分展示 =====
+  var js=s.judge_score||{};
+  var hasScore=js&&js.total_score>0;
+  // 从分配关系反查评委姓名
+  var judgeName=js.judge_name||'';
+  if(!judgeName){
+    var allUsers=getUsers();
+    var allReviewers=allUsers.filter(function(u){return u.role==='reviewer'&&u.assigned&&u.assigned.indexOf(s.id)>=0});
+    if(allReviewers.length)judgeName=allReviewers.map(function(u){return u.display_name}).join('、');
+  }
+  if(!judgeName)judgeName='评委';
+
+  if(currentUser.role==='admin'&&hasScore){
+    // 管理员：展示完整评委评分详情卡片
+    var resultMap={advance:'🟢 晋级',pending:'🟡 待议',eliminate:'🔴 淘汰'};
+    var resCls={advance:'advance',pending:'pending',eliminate:'eliminate'};
+    var dims=[{key:'value',label:'实际价值'},{key:'feasibility',label:'落地可行性'},{key:'ai_depth',label:'AI融合深度'},{key:'demo',label:'演示效果'},{key:'innovation',label:'创新性'}];
+    function jsc(v){return v>=4?'var(--ok)':v>=3?'var(--pri)':v>=2?'var(--acc)':'var(--err)'}
+
+    h+='<div class="card" style="border:2px solid var(--pri)">';
+    h+='<div class="ct" style="color:var(--pri)">👨‍⚖️ 评委评分详情 <span style="font-size:13px;font-weight:400;color:var(--txt2);margin-left:8px">评分人：'+judgeName+'</span></div>';
+    h+='<div style="border:1px solid var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:12px">';
+    h+='<div style="padding:10px 14px;font-weight:600;background:#EEF2FF">评分明细 <span style="font-weight:400;color:var(--txt2)">总分 '+js.total_score+'/25</span></div>';
+    h+='<div style="padding:0 14px 12px">';
+    dims.forEach(function(dim){
+      var val=js[dim.key]||0;var pct=val/5*100;var c=jsc(val);
+      h+='<div class="sc-row"><div class="sc-nm">'+dim.label+'</div><div class="sc-tk"><div class="sc-fl" style="width:'+pct+'%;background:'+c+'"></div></div><div class="sc-nm2" style="color:'+c+'">'+val+'</div></div>';
+    });
+    h+='</div></div>';
+    h+='<div class="concl '+resCls[js.result||'pending']+'"><div class="big">'+(js.result==='advance'?'🟢':js.result==='eliminate'?'🔴':'🟡')+'</div><div class="lab">'+(resultMap[js.result||'']||'—')+'</div><div class="det">'+js.total_score+'/25</div></div>';
+    if(js.comment){h+='<div style="margin-top:10px"><b>💬 综合评价：</b><div style="color:var(--txt2);margin-top:4px;white-space:pre-wrap">'+esc(js.comment)+'</div></div>'}
+    h+='</div>';
+  }else if(currentUser.role==='reviewer'||currentUser.role==='admin'){
+    // 评委/管理员：评分入口
     h+='<div class="card" style="border:2px solid var(--pri);cursor:pointer;text-align:center;padding:16px" onclick="openScorePanel(\''+id+'\')">';
     if(hasScore){
-      var resultMap={advance:'🟢 晋级',pending:'🟡 待议',eliminate:'🔴 淘汰'};
-      var judgeName=js.judge_name||'评委';
-      h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ '+judgeName+' 已评分：'+js.total_score+'/25 '+resultMap[js.result||'']+'</div>';
+      var resultMap2={advance:'🟢 晋级',pending:'🟡 待议',eliminate:'🔴 淘汰'};
+      h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ '+judgeName+' 已评分：'+js.total_score+'/25 '+resultMap2[js.result||'']+'</div>';
       if(js.comment)h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px;max-height:60px;overflow:hidden;text-overflow:ellipsis">💬 "'+esc(js.comment).substring(0,80)+(js.comment.length>80?'...':'')+'"</div>';
-      h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">'+(currentUser.role==='admin'?'点击查看详情':'点击修改评分')+'</div>';
+      h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">点击修改评分</div>';
     }else{
       h+='<div style="font-size:16px;font-weight:600;color:var(--pri)">👨‍⚖️ 点击进行评分</div>';
       h+='<div style="font-size:13px;color:var(--txt2);margin-top:4px">5个维度打分 + 评审结论 + 综合评价</div>';
