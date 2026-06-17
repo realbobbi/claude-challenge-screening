@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0022)http://localhost:8765/ -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -219,10 +218,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="hdr">
   <div><h1 id="page-title">👨‍⚖️ 评审系统</h1><div class="sub">Y事业部Claude挑战赛 · <span id="user-info">管理员 [管理员]</span></div></div>
   <div class="right">
-    <button class="btn bo bsm" onclick="copyShareUrl()" title="复制分享链接">🔗 分享链接</button>
-    <a href="http://localhost:8765/submit" style="color:rgba(255,255,255,.7);font-size:13px;text-decoration:none;margin-right:8px">📝 提交端</a>
-    <button class="btn bo bsm" onclick="loadAll()">🔄 刷新</button>
-    <button class="btn bg bsm" onclick="doLogout()">退出</button>
+    <span style="font-size:12px;opacity:.7;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:10px">📦 静态展示</span>
   </div>
 </div>
 <div class="tabs" id="main-tabs"><div class="tab active" data-tab="review" onclick="switchTab(&#39;review&#39;)">📋 评审作品</div><div class="tab" data-tab="upload" onclick="switchTab(&#39;upload&#39;)">📥 上传作品</div><div class="tab" data-tab="assign" onclick="switchTab(&#39;assign&#39;)">📋 分配项目</div><div class="tab" data-tab="judges" onclick="switchTab(&#39;judges&#39;)">👥 评审人</div><div class="tab" data-tab="overview" onclick="switchTab(&#39;overview&#39;)">📊 总览</div></div>
@@ -230,7 +226,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
   <!-- ===== Tab: 评审作品 ===== -->
   <div class="tc active" id="tab-review">
-    <div class="stat-bar" id="stat-bar"><div class="stat-item"><div class="num">2</div><div class="lab">作品总数</div></div><div class="stat-item"><div class="num" style="color:var(--pri)">2</div><div class="lab">AI已评审</div></div><div class="stat-item"><div class="num" style="color:var(--acc)">0</div><div class="lab">评委已评</div></div><div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:8px"><button class="btn bo bsm" onclick="expCSV()">📊 导出</button><button class="btn bg bsm" onclick="clearAll()">🗑️ 清空</button></div></div>
+    <div class="stat-bar" id="stat-bar"><div class="stat-item"><div class="num">2</div><div class="lab">作品总数</div></div><div class="stat-item"><div class="num" style="color:var(--pri)">2</div><div class="lab">AI已评审</div></div><div class="stat-item"><div class="num" style="color:var(--acc)">0</div><div class="lab">评委已评</div></div><div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:8px"></div></div>
     <div id="rv-list"><div class="card"><div class="ct">📋 作品列表（2件）</div><div class="slist-item" onclick="viewDetail(&#39;sub_fc7d4775cbc6&#39;)"><div class="sli-top"><div class="sli-name">1. 测试作品</div><div><span class="sli-status st-done">✅ 已评审</span> <span class="sli-status st-pending2">🟡建议待议</span></div></div><div class="sli-meta">ERP: test001 · 方向1提效 · 2026-06-16 19:10:41 · 📎1</div></div><div class="slist-item" onclick="viewDetail(&#39;sub_030125025b13&#39;)"><div class="sli-top"><div class="sli-name">2. 今日局（出行小程序）</div><div><span class="sli-status st-done">✅ 已评审</span> <span class="sli-status st-pending2">🟡建议待议</span></div></div><div class="sli-meta">ERP: 111 · 方向3创新 · 2026-06-17 14:06:34 · 📎1</div></div></div></div>
     <div id="rv-detail" style="display:none"></div>
   </div>
@@ -471,7 +467,14 @@ function switchTab(name){
 }
 
 // ========== 初始化 ==========
-window.onload=function(){checkAuth()};
+window.onload=function(){
+  // 静态展示模式：自动以管理员身份登录，无需后端API
+  currentUser={display_name:'管理员',role:'admin',username:'admin'};
+  document.getElementById('login-overlay').style.display='none';
+  document.getElementById('app-main').style.display='block';
+  document.getElementById('user-info').textContent='管理员 [管理员]';
+  setupTabs('admin');
+};
 
 function loadAll(){loadRv();if(currentUser&&currentUser.role==='admin'){loadUsers();loadSubs()}}
 
